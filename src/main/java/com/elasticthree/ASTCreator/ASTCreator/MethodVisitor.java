@@ -1,16 +1,17 @@
 package com.elasticthree.ASTCreator.ASTCreator;
 
+import org.apache.log4j.Logger;
+
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-@SuppressWarnings("hiding")
-public class MethodVisitor<Object> extends VoidVisitorAdapter<Object>{
+public class MethodVisitor extends VoidVisitorAdapter<Object>{
+	
+	final static Logger logger = Logger.getLogger(ASTCreator.class);
+	
 	 @Override
      public void visit(MethodDeclaration n, Object arg) {
-         // here you can access the attributes of the method.
-         // this method will be called for all methods in this 
-         // CompilationUnit, including inner class methods
-         System.out.println(n.getName());
+			logger.info("Method name: " + n.getName());
          super.visit(n, arg);
      }
 }

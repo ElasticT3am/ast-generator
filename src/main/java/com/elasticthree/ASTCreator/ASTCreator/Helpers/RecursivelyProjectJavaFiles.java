@@ -6,8 +6,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 public class RecursivelyProjectJavaFiles {
 	
+	final static Logger logger = Logger.getLogger(RecursivelyProjectJavaFiles.class);
 	public static List<String> getProjectJavaFiles(String path){
 		
 		List<String> allFiles = new ArrayList<String>();
@@ -34,8 +37,7 @@ public class RecursivelyProjectJavaFiles {
 			});
 			
 		} catch (IOException e) {
-			// TODO You must add logger :(
-			e.printStackTrace();
+			logger.error("IO Exception",e);
 		}
 		return allFiles;
 	}
