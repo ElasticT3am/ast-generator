@@ -12,6 +12,6 @@ Compilers, like java (javacc), often use an AST for the following bullets:
 
 ![buffer oberon ast](https://cloud.githubusercontent.com/assets/11991105/18111997/e36981bc-6f2c-11e6-9c24-a736bc6874b5.png)
 
+**Ast-generator project** builds a basic AST for any GitHub project, using [javaparser project](http://javaparser.org/)
 
-**Ast-generator project** builds a basic AST for any GitHub project, where user pass GitHub project's path as argument using [javaparser project](http://javaparser.org/)
-
+User just passes GitHub project path (for AST) as argument and after runs the ast-generator java project (Maven project) 
