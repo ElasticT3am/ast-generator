@@ -24,7 +24,7 @@ public class TypeDeclarationAST {
 	
 	public void getTypeDeclarationFile(){
 		getClassOrInterface(cu);
-		getClassOrInterfaceMethod(cu);
+		//getClassOrInterfaceMethod(cu);
 	}
 	
 	private void getClassOrInterface(CompilationUnit cu) {

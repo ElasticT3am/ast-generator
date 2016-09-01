@@ -71,7 +71,7 @@ public class ASTCreator {
 		List<String> classes = RecursivelyProjectJavaFiles.getProjectJavaFiles(args[0]);
 		ASTCreator ast = new ASTCreator();
 		classes.forEach(file -> {
-			logger.info("Java file name: " + file);
+			logger.info("##################### Java file: " + file + " #####################");
 			ast.getASTStats(file);	
 		});
 		
