@@ -33,7 +33,7 @@ public class MethodParser{
 		
 	}
 	
-	private void printAllModifiers(int mod){
+	public static void printAllModifiers(int mod){
 		if (Modifier.isFinal(mod)) {
 			logger.info("Method has final modifier");
 		}

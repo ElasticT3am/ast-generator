@@ -24,7 +24,7 @@ public class TypeDeclarationAST {
 	
 	public void getTypeDeclarationFile(){
 		getClassOrInterface(cu);
-		//getClassOrInterfaceMethod(cu);
+		getFileMethods(cu);
 	}
 	
 	private void getClassOrInterface(CompilationUnit cu) {
@@ -32,15 +32,15 @@ public class TypeDeclarationAST {
 			logger.info("Package name : " + cu.getPackage().getName().toString());
 			new ClassVisitor().visit(cu, null);
 		}catch (Exception e){
-       	 logger.error("A class cannot extend more than one other class: ",e);
+       	 logger.error("Error: ",e);
 		}
 	}
 	
-	private void getClassOrInterfaceMethod(CompilationUnit cu) {
+	private void getFileMethods(CompilationUnit cu) {
 		try{
 			new MethodVisitor().visit(cu, null);
 		}catch (Exception e){
-			logger.error("A class cannot extend more than one other class: ",e);
+			logger.error("Error: ",e);
 		}
 	}
 }
