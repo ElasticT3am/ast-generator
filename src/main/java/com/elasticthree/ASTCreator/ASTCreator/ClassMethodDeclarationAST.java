@@ -8,7 +8,7 @@ public class ClassMethodDeclarationAST {
 	private CompilationUnit cu;
 	private String pathFile;
 	private ClassVisitor classVisitor;
-	private MethodVisitor methodVisitor;	
+	private MethodVisitor methodVisitor;
 
 	public ClassMethodDeclarationAST(CompilationUnit cu, String pathClass){
 		this.cu = cu;
@@ -24,7 +24,6 @@ public class ClassMethodDeclarationAST {
 	
 	private void getClassOrInterface(CompilationUnit cu) {
 		try{
-//			logger.info("Package name : " + cu.getPackage().getName().toString());
 			classVisitor.visit(cu, null);
 		}catch (Exception e){
        	 logger.error("Error: ",e);

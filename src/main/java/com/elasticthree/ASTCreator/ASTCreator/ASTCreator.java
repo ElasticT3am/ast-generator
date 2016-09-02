@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.elasticthree.ASTCreator.ASTCreator.Helpers.RecursivelyProjectJavaFiles;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.FileObject;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.FileNodeAST;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.CompilationUnit;
@@ -60,7 +60,7 @@ public class ASTCreator {
 		ClassMethodDeclarationAST ast = new ClassMethodDeclarationAST(cu,
 				path_to_class);
 		ast.getTypeDeclarationFile();
-		FileObject fileObbject = new FileObject(path_to_class, cu.getPackage()
+		FileNodeAST fileObbject = new FileNodeAST(path_to_class, cu.getPackage()
 				.getName().toString(), ast.getClassVisitor()
 				.getNumberOfClasses(), ast.getClassVisitor()
 				.getNumberOfInterfaces(), ast.getMethodVisitor()

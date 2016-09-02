@@ -1,6 +1,9 @@
 package com.elasticthree.ASTCreator.ASTCreator.Objects;
 
-public class FileObject {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FileNodeAST {
 
 	private String id;
 	private String packageName;
@@ -8,8 +11,9 @@ public class FileObject {
 	private long numberOfClasses;
 	private long numberOfInterfaces;
 	private long numberOfMethods;
+	private List<ClassNodeAST> classes;
 
-	public FileObject(String absPathToFile, String packageName,
+	public FileNodeAST(String absPathToFile, String packageName,
 			long numberOfClasses, long numberOfInterfaces, long numberOfMethods) {
 		this.id = absPathToFile;
 		this.name = absPathToFile.substring(absPathToFile.lastIndexOf("/") + 1);
@@ -17,6 +21,7 @@ public class FileObject {
 		setNumberOfClasses(numberOfClasses);
 		setNumberOfInterfaces(numberOfInterfaces);
 		setNumberOfMethods(numberOfMethods);
+		setClasses(new ArrayList<ClassNodeAST>());
 	}
 
 	public String getId() {
@@ -68,9 +73,17 @@ public class FileObject {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString(){ 
 		return "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
 				+ "\', \'NumberOfClasses: " + numberOfClasses + "\', \'NumberOfInterfaces : " 
 				+ numberOfInterfaces + "\', \'NUmberOfMethods: " + numberOfMethods + "\']";
+	}
+
+	public List<ClassNodeAST> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(List<ClassNodeAST> classes) {
+		this.classes = classes;
 	}
 }
