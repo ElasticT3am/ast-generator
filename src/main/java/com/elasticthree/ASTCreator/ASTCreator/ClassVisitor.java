@@ -13,7 +13,14 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 public class ClassVisitor extends VoidVisitorAdapter<Object> {
 	final static Logger logger = Logger.getLogger(ASTCreator.class);
 
-	public ClassVisitor() {
+	private final String packageFile;
+	private long numberOfClasses;
+	private long numberOfInterfaces;
+
+	public ClassVisitor(String pacName) {
+		this.packageFile = pacName;
+		setNumberOfClasses(0);
+		setNumberOfInterfaces(0);
 	}
 
 	@Override
@@ -21,60 +28,82 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 		super.visit(n, arg);
 		parsing(n);
 	}
-	
-	private void parsing(ClassOrInterfaceDeclaration n){
+
+	private void parsing(ClassOrInterfaceDeclaration n) {
 		// It's a Class
-				if (!n.isInterface()) {
-					logger.info("Class name : " + n.getName());
-					for (ClassOrInterfaceType ext : n.getExtends()) {
-						logger.info("Extends class: " + ext.getName());
-					}
-					for (AnnotationExpr ann : n.getAnnotations()) {
-						logger.info("Annotation class: " + ann.toString());
-					}
-					for (Comment comment : n.getAllContainedComments()) {
-						logger.info("Comment class:" + comment.toString());
-					}
-					logger.info("Class line: " + n.getBegin().line + " , column: "
-							+ n.getBegin().column);
-					logger.info("Class begin range: " + n.getRange().begin
-							+ " , end range: " + n.getRange().end);
+		if (!n.isInterface()) {
+			numberOfClasses++;
+//			logger.info("Class name : " + n.getName());
+			for (ClassOrInterfaceType ext : n.getExtends()) {
+//				logger.info("Extends class: " + ext.getName());
+			}
+			for (AnnotationExpr ann : n.getAnnotations()) {
+//				logger.info("Annotation class: " + ann.toString());
+			}
+			for (Comment comment : n.getAllContainedComments()) {
+//				logger.info("Comment class:" + comment.toString());
+			}
+//			logger.info("Class line: " + n.getBegin().line + " , column: "
+//					+ n.getBegin().column);
+//			logger.info("Class begin range: " + n.getRange().begin
+//					+ " , end range: " + n.getRange().end);
 
-					// Method parser
-					for (BodyDeclaration member : n.getMembers()) {
-						if (member instanceof MethodDeclaration) {
-							MethodDeclaration method = (MethodDeclaration) member;
-							MethodParser mparser = new MethodParser(method);
-							mparser.methodObjectParser();
-						}
-					}
+			// Method parser
+			for (BodyDeclaration member : n.getMembers()) {
+				if (member instanceof MethodDeclaration) {
+					MethodDeclaration method = (MethodDeclaration) member;
+					MethodParser mparser = new MethodParser(method);
+					mparser.methodObjectParser();
 				}
-				// It's an Interface
-				else {
-					logger.info("Interface name : " + n.getName());
-					for (ClassOrInterfaceType ext : n.getExtends()) {
-						logger.info("Extends class: " + ext.getName());
-					}
-					for (AnnotationExpr ann : n.getAnnotations()) {
-						logger.info("Annotation class: " + ann.toString());
-					}
-					for (Comment comment : n.getAllContainedComments()) {
-						logger.info("Comment class:" + comment.toString());
-					}
-					logger.info("Class line: " + n.getBegin().line + " , column: "
-							+ n.getBegin().column);
-					logger.info("Class begin range: " + n.getRange().begin
-							+ " , end range: " + n.getRange().end);
+			}
+		}
+		// It's an Interface
+		else {
+			numberOfInterfaces++;
+//			logger.info("Interface name : " + n.getName());
+			for (ClassOrInterfaceType ext : n.getExtends()) {
+//				logger.info("Extends class: " + ext.getName());
+			}
+			for (AnnotationExpr ann : n.getAnnotations()) {
+//				logger.info("Annotation class: " + ann.toString());
+			}
+			for (Comment comment : n.getAllContainedComments()) {
+//				logger.info("Comment class:" + comment.toString());
+			}
+//			logger.info("Class line: " + n.getBegin().line + " , column: "
+//					+ n.getBegin().column);
+//			logger.info("Class begin range: " + n.getRange().begin
+//					+ " , end range: " + n.getRange().end);
 
-					// Method parser
-					for (BodyDeclaration member : n.getMembers()) {
-						if (member instanceof MethodDeclaration) {
-							MethodDeclaration method = (MethodDeclaration) member;
-							MethodParser mparser = new MethodParser(method);
-							mparser.methodObjectParser();
-						}
-					}
-				}
+			// Method parser
+//			for (BodyDeclaration member : n.getMembers()) {
+//				if (member instanceof MethodDeclaration) {
+//					MethodDeclaration method = (MethodDeclaration) member;
+//					MethodParser mparser = new MethodParser(method);
+//					mparser.methodObjectParser();
+//				}
+//			}
+		}
+	}
+
+	public String getPackageFile() {
+		return packageFile;
+	}
+
+	public long getNumberOfClasses() {
+		return numberOfClasses;
+	}
+
+	public void setNumberOfClasses(long numberOfClasses) {
+		this.numberOfClasses = numberOfClasses;
+	}
+
+	public long getNumberOfInterfaces() {
+		return numberOfInterfaces;
+	}
+
+	public void setNumberOfInterfaces(long numberOfInterfaces) {
+		this.numberOfInterfaces = numberOfInterfaces;
 	}
 
 }

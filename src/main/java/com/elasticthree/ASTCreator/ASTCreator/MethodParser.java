@@ -18,18 +18,18 @@ public class MethodParser{
 	
 	
 	public void methodObjectParser(){
-		logger.info("Method name: " + method.getName());
-		logger.info("Method returning type : " + method.getType());
+//		logger.info("Method name: " + method.getName());
+//		logger.info("Method returning type : " + method.getType());
 		for (TypeParameter parameter: method.getTypeParameters()){
-			logger.info("Method parameter names: " + parameter.getName());
-			logger.info("Method parameter type: " + parameter.getClass());
+//			logger.info("Method parameter names: " + parameter.getName());
+//			logger.info("Method parameter type: " + parameter.getClass());
 		}
 		for (Comment comment: method.getAllContainedComments())
-			logger.info("Method comment: " + comment.getContent());
+//			logger.info("Method comment: " + comment.getContent());
 		for (AnnotationExpr ann:  method.getAnnotations()){
-			logger.info("Method Annotations: " + ann.toString());
+//			logger.info("Method Annotations: " + ann.toString());
 		}
-		printAllModifiers(method.getModifiers());
+//		printAllModifiers(method.getModifiers());
 		
 	}
 	
