@@ -76,8 +76,7 @@ public class ASTCreator {
 				.getProjectJavaFiles(args[0]);
 		ASTCreator ast = new ASTCreator();
 		classes.forEach(file -> {
-			logger.info("##################### Java file: " + file
-					+ " #####################");
+			logger.info("##################### Java File #####################");
 			ast.getASTStats(file);
 		});
 

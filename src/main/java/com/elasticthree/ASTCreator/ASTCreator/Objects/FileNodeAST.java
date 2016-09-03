@@ -83,7 +83,7 @@ public class FileNodeAST {
 	
 	@Override
 	public String toString(){ 
-		String to_string = "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
+		String to_string = " - root level - [ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
 				+ "\', \'NumberOfClasses: " + numberOfClasses + "\', \'NumberOfInterfaces : " 
 				+ numberOfInterfaces + "\']";
 		if (classes.size() == 0 )

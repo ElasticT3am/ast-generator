@@ -222,7 +222,6 @@ public class ClassNodeAST {
 				to_string += "\n" + impl.get(i).toString();
 		
 		if (method.size() != 0 ){
-			System.out.println("PAPAPAPAPAPAP to size : " + method.size() );
 			for(int i=0; i<method.size(); i++)
 				to_string += "\n" + method.get(i).toString();
 		}
