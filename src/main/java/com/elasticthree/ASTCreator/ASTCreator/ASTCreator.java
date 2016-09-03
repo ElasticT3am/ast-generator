@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.elasticthree.ASTCreator.ASTCreator.Helpers.RecursivelyProjectJavaFiles;
+import com.elasticthree.ASTCreator.ASTCreator.Neo4jDriver.Neo4JDriver;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.FileNodeAST;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseException;
@@ -54,8 +55,9 @@ public class ASTCreator {
 		return cu;
 	}
 
-	public void getASTStats(String path_to_class){
-
+	public FileNodeAST getASTStats(String path_to_class){
+		
+		FileNodeAST fileObject = null;
 		CompilationUnit cu;
 		cu = getClassCompilationUnit(path_to_class);
 		if (cu != null){
@@ -69,15 +71,16 @@ public class ASTCreator {
 				logger.debug("Propably no package");
 				packageName = "No_package";
 			}
-			FileNodeAST fileObject = new FileNodeAST(path_to_class, packageName,
+			fileObject = new FileNodeAST(path_to_class, packageName,
 					ast.getClassVisitor().getNumberOfClasses(), ast
 							.getClassVisitor().getNumberOfInterfaces());
 			fileObject.setClasses(ast.getClassVisitor().getClasses());
 			fileObject.setInterfaces(ast.getClassVisitor().getInterfaces());
-			logger.info(fileObject.toString());
+//			logger.info(fileObject.toString());
 		}
 		else
 			logger.debug("Skip project from AST - Graph procedure");
+		return fileObject;
 	}
 
 	public static void main(String[] args) {
@@ -88,7 +91,7 @@ public class ASTCreator {
 		classes.forEach(file -> {
 			logger.info("##################### Java File: " + file
 					+ " #####################");
-				ast.getASTStats(file);
+				new Neo4JDriver().insertNeo4JDB(ast.getASTStats(file));
 		});
 
 	}
