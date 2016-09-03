@@ -175,4 +175,31 @@ public class InterfaceNodeAST {
 		this.method = method;
 	}
 	
+	@Override
+	public String toString(){
+		String to_string = "[ \'ID: " + id + "\', \'Package : " 
+				+ packageName + "\', \'Name: " + name  
+				+ "\', \'NumberOfMethods: " + numberOfMethods 
+				+ "\', \'HasFinalModifier : " + hasFinalModifier
+				+ "\', \'HasAbstractModifier : " + hasAbstractModifier
+				+ "\', \'HasPrivateModifier : " + hasPrivateModifier
+				+ "\', \'HasPublicModifier : " + hasPublicModifier
+				+ "\', \'HasProtectedModifier : " + hasProtectedModifier
+				+ "\', \'HasStaticModifier : " + hasStaticModifier
+				+ "\', \'HasSynchronizeModifier : " + hasSynchronizeModifier
+				+ "\']";
+		if (annotatios.size() != 0 )
+			for(int i=0; i<annotatios.size(); i++)
+				to_string += "\n" + annotatios.get(i).toString();
+		
+		if (comments.size() != 0 )
+			for(int i=0; i<comments.size(); i++)
+				to_string += "\n" + comments.get(i).toString();
+		
+		if (method.size() != 0 )
+			for(int i=0; i<method.size(); i++)
+				to_string += "\n" + method.get(i).toString();
+
+		return to_string;
+	}
 }

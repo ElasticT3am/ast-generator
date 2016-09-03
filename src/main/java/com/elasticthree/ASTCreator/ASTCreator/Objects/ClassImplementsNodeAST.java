@@ -16,4 +16,11 @@ public class ClassImplementsNodeAST {
 		this.name = name;
 	}
 	
+	@Override
+	public String toString(){
+		String to_string = "[ \' ImplementsNodeAST - Name: " + name
+				+ "\']";
+		
+		return to_string;
+	}
 }

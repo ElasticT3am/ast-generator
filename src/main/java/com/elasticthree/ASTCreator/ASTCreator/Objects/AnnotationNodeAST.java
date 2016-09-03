@@ -16,4 +16,12 @@ public class AnnotationNodeAST {
 		this.name = name;
 	}
 	
+	@Override
+	public String toString(){
+		String to_string = "[ \'AnnotationNodeAST - Name: " + name
+				+ "\']";
+		
+		return to_string;
+	}
+	
 }

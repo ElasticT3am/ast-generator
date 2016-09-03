@@ -6,7 +6,7 @@ public class ParameterMethodNodeAST {
 	private String name;
 	
 	public ParameterMethodNodeAST(String type, String name){
-		this.setType(name);
+		this.setType(type);
 		this.setName(name);
 	}
 
@@ -24,5 +24,13 @@ public class ParameterMethodNodeAST {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	@Override
+	public String toString(){
+		String to_string = "[ \'ParameterMethodNodeAST - Type: " + type.toString()
+				+ ", Name: " + name.toString() + "\']";
+		
+		return to_string;
 	}
 }

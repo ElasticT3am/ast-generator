@@ -83,8 +83,26 @@ public class FileNodeAST {
 	
 	@Override
 	public String toString(){ 
-		return "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
+		String to_string = "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
 				+ "\', \'NumberOfClasses: " + numberOfClasses + "\', \'NumberOfInterfaces : " 
 				+ numberOfInterfaces + "\']";
+		if (classes.size() == 0 )
+			to_string += "\nNo classes on this File";
+		
+		else{
+			for(int i=0; i<classes.size(); i++)
+				to_string += "\n CLASS -> " + classes.get(i).toString();
+		}
+		
+		if (interfaces.size() == 0 )
+			to_string += "\nNo interfaces on this File";
+		
+		else{
+			for(int i=0; i<interfaces.size(); i++)
+				to_string += "\n INTERFACE -> " + interfaces.get(i).toString();
+		}
+		
+		
+		return to_string;
 	}
 }

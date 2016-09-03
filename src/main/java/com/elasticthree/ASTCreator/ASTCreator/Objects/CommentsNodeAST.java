@@ -16,4 +16,11 @@ public class CommentsNodeAST {
 		this.name = name;
 	}
 
+	@Override
+	public String toString(){
+		String to_string = "[ \'CommentsNodeAST - Name: " + name
+				+ "\']";
+		
+		return to_string;
+	}
 }

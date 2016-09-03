@@ -16,4 +16,12 @@ public class ThrowMethodNodeAST {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public String toString(){
+		String to_string = "[ \'ThrowMethodNodeAST - Name: " + name
+				+ "\']";
+		
+		return to_string;
+	}
 }

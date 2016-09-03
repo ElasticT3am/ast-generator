@@ -115,15 +115,11 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 							}
 							methodClass.setAnnotatios(annotatiosMethod);
 						}
-						methodClass.setAllModifiers(method.getModifiers());
-						classMethodNode.add(methodClass);
 						
 						if (method.getParameters().size() != 0) {
 							List<ParameterMethodNodeAST> parametersMethod = new ArrayList<ParameterMethodNodeAST>();
 							for (Parameter param : method.getParameters()) {
 								parametersMethod.add(new ParameterMethodNodeAST(param.getType().toString(), param.getName().toString()));
-//								logger.info("Method Type parameter: " + param.getType());
-//								logger.info("Method Name parameter: " + param.getName());
 							}
 							methodClass.setParameters(parametersMethod);
 						}
@@ -132,13 +128,13 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 							List<ThrowMethodNodeAST> throwsMethod = new ArrayList<ThrowMethodNodeAST>();
 							for (ReferenceType reftype : method.getThrows()){
 								throwsMethod.add(new ThrowMethodNodeAST(reftype.toString()));
-//								logger.info("Method reftype: " + reftype.toString());
 							}
 							methodClass.setThrowsMethod(throwsMethod);
 						}
 						
 						methodClass.setAllModifiers(method.getModifiers());
 						classMethodNode.add(methodClass);
+						classNode.setMethod(classMethodNode);
 					}
 				}
 				classNode.setNumberOfMethods(numberOfMethodsPerClass);
@@ -164,7 +160,6 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 				List<CommentsNodeAST> interfComment = new ArrayList<CommentsNodeAST>();
 				for (Comment comment : n.getAllContainedComments()) {
 					interfComment.add(new CommentsNodeAST(comment.toString()));
-					// logger.info("Implements interfaces: " + impl.getName());
 				}
 				interfaceNode.setComments(interfComment);
 			}
@@ -201,8 +196,6 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 							List<ParameterMethodNodeAST> parametersMethod = new ArrayList<ParameterMethodNodeAST>();
 							for (Parameter param : method.getParameters()) {
 								parametersMethod.add(new ParameterMethodNodeAST(param.getType().toString(), param.getName().toString()));
-//								logger.info("Method Type parameter: " + param.getType());
-//								logger.info("Method Name parameter: " + param.getName());
 							}
 							methodInterface.setParameters(parametersMethod);
 						}
@@ -211,13 +204,13 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 							List<ThrowMethodNodeAST> throwsMethod = new ArrayList<ThrowMethodNodeAST>();
 							for (ReferenceType reftype : method.getThrows()){
 								throwsMethod.add(new ThrowMethodNodeAST(reftype.toString()));
-//								logger.info("Method reftype: " + reftype.toString());
 							}
 							methodInterface.setThrowsMethod(throwsMethod);
 						}
 						
 						methodInterface.setAllModifiers(method.getModifiers());
 						interfMethodNode.add(methodInterface);
+						interfaceNode.setMethod(interfMethodNode);
 					}
 				}
 				interfaceNode.setNumberOfMethods(numberOfMethodsPerInterface);

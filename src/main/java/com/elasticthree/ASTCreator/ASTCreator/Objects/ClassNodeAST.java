@@ -27,7 +27,7 @@ public class ClassNodeAST {
 		this.setId(packageName + "-ClassNode-" + name);
 		this.name = name;
 		this.packageName = packageName;
-		this.extendsClass = "";
+		this.extendsClass = "None";
 		hasFinalModifier = false;
 		hasAbstractModifier = false;
 		hasPrivateModifier = false;
@@ -40,7 +40,6 @@ public class ClassNodeAST {
 		comments = new ArrayList<CommentsNodeAST>();
 		impl = new ArrayList<ClassImplementsNodeAST>();
 		method = new ArrayList<ClassHasMethodNodeAST>();
-		
 	}
 
 	public String getName() {
@@ -193,6 +192,42 @@ public class ClassNodeAST {
 		if (Modifier.isSynchronized(mod)){
 			hasStaticModifier = true;
 		}
+	}
+
+	
+	@Override
+	public String toString(){
+		String to_string = "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " 
+				+ name  
+				+ "\', \'ExtendsClass: " + extendsClass 
+				+ "\', \'NumberOfMethods : " + numberOfMethods
+				+ "\', \'HasFinalModifier : " + hasFinalModifier
+				+ "\', \'HasAbstractModifier : " + hasAbstractModifier
+				+ "\', \'HasPrivateModifier : " + hasPrivateModifier
+				+ "\', \'HasPublicModifier : " + hasPublicModifier
+				+ "\', \'HasProtectedModifier : " + hasProtectedModifier
+				+ "\', \'HasStaticModifier : " + hasStaticModifier
+				+ "\', \'HasSynchronizeModifier : " + hasSynchronizeModifier
+				+ "\']";
+		if (annotatios.size() != 0 )
+			for(int i=0; i<annotatios.size(); i++)
+				to_string += "\n" + annotatios.get(i).toString();
+		
+		if (comments.size() != 0 )
+			for(int i=0; i<comments.size(); i++)
+				to_string += "\n" + comments.get(i).toString();
+		
+		if (impl.size() != 0 )
+			for(int i=0; i<impl.size(); i++)
+				to_string += "\n" + impl.get(i).toString();
+		
+		if (method.size() != 0 ){
+			System.out.println("PAPAPAPAPAPAP to size : " + method.size() );
+			for(int i=0; i<method.size(); i++)
+				to_string += "\n" + method.get(i).toString();
+		}
+		
+		return to_string;
 	}
 
 }

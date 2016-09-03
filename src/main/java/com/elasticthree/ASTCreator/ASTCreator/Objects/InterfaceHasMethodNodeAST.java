@@ -183,4 +183,37 @@ public class InterfaceHasMethodNodeAST {
 	public void setThrowsMethod(List<ThrowMethodNodeAST> throwsMethod) {
 		this.throwsMethod = throwsMethod;
 	}
+	
+	
+	@Override
+	public String toString(){
+		String to_string = " METHOD_INTERFACE -> [ \'ID: " + id + "\', \'Package : " 
+				+ packageName + "\', \'Name: " + name  
+				+ "\', \'ReturningType: " + returningType
+				+ "\', \'HasFinalModifier : " + hasFinalModifier
+				+ "\', \'HasAbstractModifier : " + hasAbstractModifier
+				+ "\', \'HasPrivateModifier : " + hasPrivateModifier
+				+ "\', \'HasPublicModifier : " + hasPublicModifier
+				+ "\', \'HasProtectedModifier : " + hasProtectedModifier
+				+ "\', \'HasStaticModifier : " + hasStaticModifier
+				+ "\', \'HasSynchronizeModifier : " + hasSynchronizeModifier
+				+ "\']";
+		if (annotatios.size() != 0 )
+			for(int i=0; i<annotatios.size(); i++)
+				to_string += "\n" + annotatios.get(i).toString();
+		
+		if (comments.size() != 0 )
+			for(int i=0; i<comments.size(); i++)
+				to_string += "\n" + comments.get(i).toString();
+		
+		if (parameters.size() != 0 )
+			for(int i=0; i<parameters.size(); i++)
+				to_string += "\n" + parameters.get(i).toString();
+		
+		if (throwsMethod.size() != 0 )
+			for(int i=0; i<throwsMethod.size(); i++)
+				to_string += "\n" + throwsMethod.get(i).toString();
+		
+		return to_string;
+	}
 }
