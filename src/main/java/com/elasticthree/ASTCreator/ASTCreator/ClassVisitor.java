@@ -10,6 +10,8 @@ import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassHasMethodNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassImplementsNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.CommentsNodeAST;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceHasMethodNodeAST;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceNodeAST;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -25,12 +27,14 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 	private long numberOfClasses;
 	private long numberOfInterfaces;
 	private List<ClassNodeAST> classes;
+	private List<InterfaceNodeAST> interfaces;
 
 	public ClassVisitor(String pacName) {
 		this.packageFile = pacName;
 		setNumberOfClasses(0);
 		setNumberOfInterfaces(0);
 		setClasses(new ArrayList<ClassNodeAST>());
+		setInterfaces(new ArrayList<InterfaceNodeAST>());
 	}
 
 	@Override
@@ -112,34 +116,66 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 				}
 				classNode.setNumberOfMethods(numberOfMethodsPerClass);
 			}
-
+			getClasses().add(classNode);
 		}
 		// It's an Interface
 		else {
 			numberOfInterfaces++;
-			// logger.info("Interface name : " + n.getName());
-			for (ClassOrInterfaceType ext : n.getExtends()) {
-				// logger.info("Extends class: " + ext.getName());
+			InterfaceNodeAST interfaceNode = new InterfaceNodeAST(n.getName(),getPackageFile());
+			interfaceNode.setAllModifiers(n.getModifiers());
+			
+			if (n.getAnnotations().size() != 0) {
+				List<AnnotationNodeAST> interfAnn = new ArrayList<AnnotationNodeAST>();
+				for (AnnotationExpr ann : n.getAnnotations()) {
+					interfAnn.add(new AnnotationNodeAST(ann.toString()));
+					// logger.info("Implements interfaces: " + impl.getName());
+				}
+				interfaceNode.setAnnotatios(interfAnn);
 			}
-			for (AnnotationExpr ann : n.getAnnotations()) {
-				// logger.info("Annotation class: " + ann.toString());
-			}
-			for (Comment comment : n.getAllContainedComments()) {
-				// logger.info("Comment class:" + comment.toString());
-			}
-			// logger.info("Class line: " + n.getBegin().line + " , column: "
-			// + n.getBegin().column);
-			// logger.info("Class begin range: " + n.getRange().begin
-			// + " , end range: " + n.getRange().end);
 
-			// Method parser
-			// for (BodyDeclaration member : n.getMembers()) {
-			// if (member instanceof MethodDeclaration) {
-			// MethodDeclaration method = (MethodDeclaration) member;
-			// MethodParser mparser = new MethodParser(method);
-			// mparser.methodObjectParser();
-			// }
-			// }
+			if (n.getAllContainedComments().size() != 0) {
+				List<CommentsNodeAST> interfComment = new ArrayList<CommentsNodeAST>();
+				for (Comment comment : n.getAllContainedComments()) {
+					interfComment.add(new CommentsNodeAST(comment.toString()));
+					// logger.info("Implements interfaces: " + impl.getName());
+				}
+				interfaceNode.setComments(interfComment);
+			}
+			
+			// Method parser of Interface
+			if (n.getMembers().size() != 0) {
+				long numberOfMethodsPerInterface = 0;
+				List<InterfaceHasMethodNodeAST> interfMethodNode = new ArrayList<InterfaceHasMethodNodeAST>();
+				for (BodyDeclaration member : n.getMembers()) {
+					if (member instanceof MethodDeclaration) {
+						numberOfMethodsPerInterface++;
+						MethodDeclaration method = (MethodDeclaration) member;
+						InterfaceHasMethodNodeAST methodInterface = new InterfaceHasMethodNodeAST(
+								method.getName(), getPackageFile());
+						methodInterface.setReturningType(method.getType().toString());
+						
+						if (method.getAllContainedComments().size() != 0) {
+							List<CommentsNodeAST> commentsMethod = new ArrayList<CommentsNodeAST>();
+							for (Comment comment : method.getAllContainedComments()){
+								commentsMethod.add(new CommentsNodeAST(comment.toString()));
+							}
+							methodInterface.setComments(commentsMethod);
+						}
+						
+						if (method.getAnnotations().size() != 0) {
+							List<AnnotationNodeAST> annotatiosMethod = new ArrayList<AnnotationNodeAST>();
+							for (AnnotationExpr ann : method.getAnnotations()){
+								annotatiosMethod.add(new AnnotationNodeAST(ann.toString()));
+							}
+							methodInterface.setAnnotatios(annotatiosMethod);
+						}
+						methodInterface.setAllModifiers(method.getModifiers());
+						interfMethodNode.add(methodInterface);
+					}
+				}
+				interfaceNode.setNumberOfMethods(numberOfMethodsPerInterface);
+			}
+			getInterfaces().add(interfaceNode);
 		}
 	}
 
@@ -169,6 +205,14 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 
 	public void setClasses(List<ClassNodeAST> classes) {
 		this.classes = classes;
+	}
+
+	public List<InterfaceNodeAST> getInterfaces() {
+		return interfaces;
+	}
+
+	public void setInterfaces(List<InterfaceNodeAST> interfaces) {
+		this.interfaces = interfaces;
 	}
 
 }

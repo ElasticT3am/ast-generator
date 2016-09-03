@@ -4,8 +4,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassHasMethodNodeAST {
-	
+public class InterfaceHasMethodNodeAST {
 	private String id;
 	private String name;
 	private String packageName;
@@ -21,8 +20,8 @@ public class ClassHasMethodNodeAST {
 	private List<CommentsNodeAST> comments;
 
 	
-	public ClassHasMethodNodeAST(String name, String packageName) {
-		this.setId(packageName + "-MethodNodeFromClass-" + name);
+	public InterfaceHasMethodNodeAST(String name, String packageName) {
+		this.setId(packageName + "-MethodNodeFromInterface-" + name);
 		this.name = name;
 		this.packageName = packageName;
 		this.returningType = "";
@@ -164,5 +163,4 @@ public class ClassHasMethodNodeAST {
 	public void setComments(List<CommentsNodeAST> comments) {
 		this.comments = comments;
 	}
-
 }

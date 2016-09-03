@@ -4,12 +4,12 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassHasMethodNodeAST {
-	
+public class InterfaceNodeAST {
+
 	private String id;
 	private String name;
 	private String packageName;
-	private String returningType;
+	private long numberOfMethods;
 	private boolean hasFinalModifier;
 	private boolean hasAbstractModifier;
 	private boolean hasPrivateModifier;
@@ -19,13 +19,12 @@ public class ClassHasMethodNodeAST {
 	private boolean hasSynchronizeModifier;
 	private List<AnnotationNodeAST> annotatios;
 	private List<CommentsNodeAST> comments;
+	private List<InterfaceHasMethodNodeAST> method;
 
-	
-	public ClassHasMethodNodeAST(String name, String packageName) {
-		this.setId(packageName + "-MethodNodeFromClass-" + name);
+	public InterfaceNodeAST(String name, String packageName) {
+		this.setId(packageName + "-InterfaceNode-" + name);
 		this.name = name;
 		this.packageName = packageName;
-		this.returningType = "";
 		hasFinalModifier = false;
 		hasAbstractModifier = false;
 		hasPrivateModifier = false;
@@ -33,34 +32,13 @@ public class ClassHasMethodNodeAST {
 		hasProtectedModifier = false;
 		hasStaticModifier = false;
 		hasSynchronizeModifier = false;
-		setAnnotatios(new ArrayList<AnnotationNodeAST>());
-		setComments(new ArrayList<CommentsNodeAST>());
+		numberOfMethods = 0;
+		annotatios = new ArrayList<AnnotationNodeAST>();
+		comments = new ArrayList<CommentsNodeAST>();
+		setMethod(new ArrayList<InterfaceHasMethodNodeAST>());
+		
 	}
 
-	public void setAllModifiers(int mod){
-		if (Modifier.isFinal(mod)) {
-			hasFinalModifier = true;
-		}
-		if (Modifier.isAbstract(mod)){
-			hasAbstractModifier = true;
-		}
-		if (Modifier.isPrivate(mod)){
-			hasPrivateModifier = true;
-		}
-		if (Modifier.isPublic(mod)){
-			hasPublicModifier = true;
-		}
-		if (Modifier.isProtected(mod)){
-			hasProtectedModifier = true;
-		}
-		if (Modifier.isStatic(mod)){
-			hasStaticModifier = true;
-		}
-		if (Modifier.isSynchronized(mod)){
-			hasStaticModifier = true;
-		}
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -75,6 +53,14 @@ public class ClassHasMethodNodeAST {
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	public long getNumberOfMethods() {
+		return numberOfMethods;
+	}
+
+	public void setNumberOfMethods(long numberOfMethods) {
+		this.numberOfMethods = numberOfMethods;
 	}
 
 	public boolean isHasFinalModifier() {
@@ -141,14 +127,6 @@ public class ClassHasMethodNodeAST {
 		this.id = id;
 	}
 
-	public String getReturningType() {
-		return returningType;
-	}
-
-	public void setReturningType(String returningType) {
-		this.returningType = returningType;
-	}
-
 	public List<AnnotationNodeAST> getAnnotatios() {
 		return annotatios;
 	}
@@ -164,5 +142,37 @@ public class ClassHasMethodNodeAST {
 	public void setComments(List<CommentsNodeAST> comments) {
 		this.comments = comments;
 	}
+	
+	public void setAllModifiers(int mod){
+		if (Modifier.isFinal(mod)) {
+			hasFinalModifier = true;
+		}
+		if (Modifier.isAbstract(mod)){
+			hasAbstractModifier = true;
+		}
+		if (Modifier.isPrivate(mod)){
+			hasPrivateModifier = true;
+		}
+		if (Modifier.isPublic(mod)){
+			hasPublicModifier = true;
+		}
+		if (Modifier.isProtected(mod)){
+			hasProtectedModifier = true;
+		}
+		if (Modifier.isStatic(mod)){
+			hasStaticModifier = true;
+		}
+		if (Modifier.isSynchronized(mod)){
+			hasStaticModifier = true;
+		}
+	}
 
+	public List<InterfaceHasMethodNodeAST> getMethod() {
+		return method;
+	}
+
+	public void setMethod(List<InterfaceHasMethodNodeAST> method) {
+		this.method = method;
+	}
+	
 }
