@@ -10,18 +10,19 @@ public class FileNodeAST {
 	private String name;
 	private long numberOfClasses;
 	private long numberOfInterfaces;
-	private long numberOfMethods;
 	private List<ClassNodeAST> classes;
+	private List<InterfaceNodeAST> interfaces;
+
 
 	public FileNodeAST(String absPathToFile, String packageName,
-			long numberOfClasses, long numberOfInterfaces, long numberOfMethods) {
+			long numberOfClasses, long numberOfInterfaces) {
 		this.id = absPathToFile;
 		this.name = absPathToFile.substring(absPathToFile.lastIndexOf("/") + 1);
 		this.packageName = packageName;
 		setNumberOfClasses(numberOfClasses);
 		setNumberOfInterfaces(numberOfInterfaces);
-		setNumberOfMethods(numberOfMethods);
 		setClasses(new ArrayList<ClassNodeAST>());
+		setInterfaces(new ArrayList<InterfaceNodeAST>());
 	}
 
 	public String getId() {
@@ -64,26 +65,26 @@ public class FileNodeAST {
 		this.numberOfInterfaces = numberOfInterfaces;
 	}
 
-	public long getNumberOfMethods() {
-		return numberOfMethods;
-	}
-
-	public void setNumberOfMethods(long numberOfMethods) {
-		this.numberOfMethods = numberOfMethods;
-	}
-	
-	@Override
-	public String toString(){ 
-		return "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
-				+ "\', \'NumberOfClasses: " + numberOfClasses + "\', \'NumberOfInterfaces : " 
-				+ numberOfInterfaces + "\', \'NUmberOfMethods: " + numberOfMethods + "\']";
-	}
-
 	public List<ClassNodeAST> getClasses() {
 		return classes;
 	}
 
 	public void setClasses(List<ClassNodeAST> classes) {
 		this.classes = classes;
+	}
+
+	public List<InterfaceNodeAST> getInterfaces() {
+		return interfaces;
+	}
+
+	public void setInterfaces(List<InterfaceNodeAST> interfaces) {
+		this.interfaces = interfaces;
+	}
+	
+	@Override
+	public String toString(){ 
+		return "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " + name 
+				+ "\', \'NumberOfClasses: " + numberOfClasses + "\', \'NumberOfInterfaces : " 
+				+ numberOfInterfaces + "\']";
 	}
 }

@@ -18,6 +18,8 @@ public class InterfaceHasMethodNodeAST {
 	private boolean hasSynchronizeModifier;
 	private List<AnnotationNodeAST> annotatios;
 	private List<CommentsNodeAST> comments;
+	private List<ParameterMethodNodeAST> parameters;
+	private List<ThrowMethodNodeAST> throwsMethod;
 
 	
 	public InterfaceHasMethodNodeAST(String name, String packageName) {
@@ -34,6 +36,8 @@ public class InterfaceHasMethodNodeAST {
 		hasSynchronizeModifier = false;
 		setAnnotatios(new ArrayList<AnnotationNodeAST>());
 		setComments(new ArrayList<CommentsNodeAST>());
+		setParameters(new ArrayList<ParameterMethodNodeAST>());
+		setThrowsMethod(new ArrayList<ThrowMethodNodeAST>());
 	}
 
 	public void setAllModifiers(int mod){
@@ -162,5 +166,21 @@ public class InterfaceHasMethodNodeAST {
 
 	public void setComments(List<CommentsNodeAST> comments) {
 		this.comments = comments;
+	}
+
+	public List<ParameterMethodNodeAST> getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(List<ParameterMethodNodeAST> parameters) {
+		this.parameters = parameters;
+	}
+
+	public List<ThrowMethodNodeAST> getThrowsMethod() {
+		return throwsMethod;
+	}
+
+	public void setThrowsMethod(List<ThrowMethodNodeAST> throwsMethod) {
+		this.throwsMethod = throwsMethod;
 	}
 }

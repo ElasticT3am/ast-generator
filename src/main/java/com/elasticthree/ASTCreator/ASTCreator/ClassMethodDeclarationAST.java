@@ -8,18 +8,15 @@ public class ClassMethodDeclarationAST {
 	private CompilationUnit cu;
 	private String pathFile;
 	private ClassVisitor classVisitor;
-	private MethodVisitor methodVisitor;
 
 	public ClassMethodDeclarationAST(CompilationUnit cu, String pathClass){
 		this.cu = cu;
 		this.setPathFile(pathClass);
 		this.classVisitor = new ClassVisitor(cu.getPackage().getName().toString());
-		this.methodVisitor = new MethodVisitor(cu.getPackage().getName().toString());
 	}
 	
 	public void getTypeDeclarationFile(){
 		getClassOrInterface(cu);
-		getFileMethods(cu);
 	}
 	
 	private void getClassOrInterface(CompilationUnit cu) {
@@ -27,14 +24,6 @@ public class ClassMethodDeclarationAST {
 			classVisitor.visit(cu, null);
 		}catch (Exception e){
        	 logger.error("Error: ",e);
-		}
-	}
-	
-	private void getFileMethods(CompilationUnit cu) {
-		try{
-			methodVisitor.visit(cu, null);
-		}catch (Exception e){
-			logger.error("Error: ",e);
 		}
 	}
 	
@@ -58,7 +47,5 @@ public class ClassMethodDeclarationAST {
 		return classVisitor;
 	}
 
-	public MethodVisitor getMethodVisitor() {
-		return methodVisitor;
-	}
+
 }

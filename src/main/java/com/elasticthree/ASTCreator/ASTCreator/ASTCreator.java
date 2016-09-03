@@ -60,12 +60,13 @@ public class ASTCreator {
 		ClassMethodDeclarationAST ast = new ClassMethodDeclarationAST(cu,
 				path_to_class);
 		ast.getTypeDeclarationFile();
-		FileNodeAST fileObbject = new FileNodeAST(path_to_class, cu.getPackage()
+		FileNodeAST fileObject = new FileNodeAST(path_to_class, cu.getPackage()
 				.getName().toString(), ast.getClassVisitor()
 				.getNumberOfClasses(), ast.getClassVisitor()
-				.getNumberOfInterfaces(), ast.getMethodVisitor()
-				.getNumberOfMethods());
-		logger.info(fileObbject.toString());
+				.getNumberOfInterfaces());
+		fileObject.setClasses(ast.getClassVisitor().getClasses());
+		fileObject.setInterfaces(ast.getClassVisitor().getInterfaces());
+		logger.info(fileObject.toString());
 
 	}
 
