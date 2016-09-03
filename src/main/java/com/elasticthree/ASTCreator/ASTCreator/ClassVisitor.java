@@ -12,12 +12,16 @@ import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.CommentsNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceHasMethodNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceNodeAST;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.ParameterMethodNodeAST;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.ThrowMethodNodeAST;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class ClassVisitor extends VoidVisitorAdapter<Object> {
@@ -47,6 +51,7 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 		// It's a Class
 		if (!n.isInterface()) {
 			numberOfClasses++;
+			
 			ClassNodeAST classNode = new ClassNodeAST(n.getName(),
 					getPackageFile());
 			classNode.setAllModifiers(n.getModifiers());
@@ -112,6 +117,28 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 						}
 						methodClass.setAllModifiers(method.getModifiers());
 						classMethodNode.add(methodClass);
+						
+						if (method.getParameters().size() != 0) {
+							List<ParameterMethodNodeAST> parametersMethod = new ArrayList<ParameterMethodNodeAST>();
+							for (Parameter param : method.getParameters()) {
+								parametersMethod.add(new ParameterMethodNodeAST(param.getType().toString(), param.getName().toString()));
+//								logger.info("Method Type parameter: " + param.getType());
+//								logger.info("Method Name parameter: " + param.getName());
+							}
+							methodClass.setParameters(parametersMethod);
+						}
+						
+						if (method.getThrows().size() != 0) {
+							List<ThrowMethodNodeAST> throwsMethod = new ArrayList<ThrowMethodNodeAST>();
+							for (ReferenceType reftype : method.getThrows()){
+								throwsMethod.add(new ThrowMethodNodeAST(reftype.toString()));
+//								logger.info("Method reftype: " + reftype.toString());
+							}
+							methodClass.setThrowsMethod(throwsMethod);
+						}
+						
+						methodClass.setAllModifiers(method.getModifiers());
+						classMethodNode.add(methodClass);
 					}
 				}
 				classNode.setNumberOfMethods(numberOfMethodsPerClass);
@@ -169,6 +196,26 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 							}
 							methodInterface.setAnnotatios(annotatiosMethod);
 						}
+						
+						if (method.getParameters().size() != 0) {
+							List<ParameterMethodNodeAST> parametersMethod = new ArrayList<ParameterMethodNodeAST>();
+							for (Parameter param : method.getParameters()) {
+								parametersMethod.add(new ParameterMethodNodeAST(param.getType().toString(), param.getName().toString()));
+//								logger.info("Method Type parameter: " + param.getType());
+//								logger.info("Method Name parameter: " + param.getName());
+							}
+							methodInterface.setParameters(parametersMethod);
+						}
+						
+						if (method.getThrows().size() != 0) {
+							List<ThrowMethodNodeAST> throwsMethod = new ArrayList<ThrowMethodNodeAST>();
+							for (ReferenceType reftype : method.getThrows()){
+								throwsMethod.add(new ThrowMethodNodeAST(reftype.toString()));
+//								logger.info("Method reftype: " + reftype.toString());
+							}
+							methodInterface.setThrowsMethod(throwsMethod);
+						}
+						
 						methodInterface.setAllModifiers(method.getModifiers());
 						interfMethodNode.add(methodInterface);
 					}
