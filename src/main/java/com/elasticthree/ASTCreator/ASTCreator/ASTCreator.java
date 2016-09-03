@@ -26,58 +26,69 @@ public class ASTCreator {
 	 * 
 	 * @param path_to_class
 	 * @return
+	 * @throws ParseException
+	 * @throws IOException
 	 */
-	public CompilationUnit getClassCompilationUnit(String path_to_class) {
+	public CompilationUnit getClassCompilationUnit(String path_to_class){
 		// creates an input stream for the file to be parsed
 		FileInputStream in = null;
+		CompilationUnit cu = null;
 		try {
 			in = new FileInputStream(path_to_class);
 		} catch (FileNotFoundException e) {
-			logger.error("File not found : ", e);
+			logger.debug("IO Error skip project from AST - Graph procedure");
+			return cu;
 		}
-
-		CompilationUnit cu = null;
 		try {
-			// parse the file
 			cu = JavaParser.parse(in);
 		} catch (ParseException e) {
-			logger.error("Parse Exception error : ", e);
-		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				logger.error("IOException : ", e);
-			}
+			logger.debug("Parsing Error skip project from AST - Graph procedure");
+		} catch (Exception e1) {
+			logger.debug("Parsing Error skip project from AST - Graph procedure");
 		}
-
+		try {
+			in.close();
+		} catch (IOException e) {
+			logger.debug("IO Error skip project from AST - Graph procedure");
+		}
 		return cu;
 	}
 
-	public void getASTStats(String path_to_class) {
+	public void getASTStats(String path_to_class){
 
-		CompilationUnit cu = this.getClassCompilationUnit(path_to_class);
-		// Print Type Declarations
-		ClassMethodDeclarationAST ast = new ClassMethodDeclarationAST(cu,
-				path_to_class);
-		ast.getTypeDeclarationFile();
-		FileNodeAST fileObject = new FileNodeAST(path_to_class, cu.getPackage()
-				.getName().toString(), ast.getClassVisitor()
-				.getNumberOfClasses(), ast.getClassVisitor()
-				.getNumberOfInterfaces());
-		fileObject.setClasses(ast.getClassVisitor().getClasses());
-		fileObject.setInterfaces(ast.getClassVisitor().getInterfaces());
-		logger.info(fileObject.toString());
-
+		CompilationUnit cu;
+		cu = getClassCompilationUnit(path_to_class);
+		if (cu != null){
+			ClassMethodDeclarationAST ast = new ClassMethodDeclarationAST(cu,
+					path_to_class);
+			ast.getTypeDeclarationFile();
+			String packageName = "";
+			try {
+				packageName = cu.getPackage().getName().toString();
+			} catch (NullPointerException n_e) {
+				logger.debug("Propably no package");
+				packageName = "No_package";
+			}
+			FileNodeAST fileObject = new FileNodeAST(path_to_class, packageName,
+					ast.getClassVisitor().getNumberOfClasses(), ast
+							.getClassVisitor().getNumberOfInterfaces());
+			fileObject.setClasses(ast.getClassVisitor().getClasses());
+			fileObject.setInterfaces(ast.getClassVisitor().getInterfaces());
+			logger.info(fileObject.toString());
+		}
+		else
+			logger.debug("Skip project from AST - Graph procedure");
 	}
 
 	public static void main(String[] args) {
-		PropertyConfigurator.configure("src/main/java/log4j.properties");
+		PropertyConfigurator.configure("resources/log4j.properties");
 		List<String> classes = RecursivelyProjectJavaFiles
 				.getProjectJavaFiles(args[0]);
 		ASTCreator ast = new ASTCreator();
 		classes.forEach(file -> {
-			logger.info("##################### Java File #####################");
-			ast.getASTStats(file);
+			logger.info("##################### Java File: " + file
+					+ " #####################");
+				ast.getASTStats(file);
 		});
 
 	}

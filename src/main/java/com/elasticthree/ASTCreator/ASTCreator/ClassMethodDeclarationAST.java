@@ -12,16 +12,26 @@ public class ClassMethodDeclarationAST {
 	public ClassMethodDeclarationAST(CompilationUnit cu, String pathClass){
 		this.cu = cu;
 		this.setPathFile(pathClass);
-		this.classVisitor = new ClassVisitor(cu.getPackage().getName().toString());
+		String packageName = "";
+		try{
+			packageName = cu.getPackage().getName().toString();
+		}
+		catch(NullPointerException n_e){
+			logger.debug("Propably no package");
+			packageName = "No_package";
+		}
+		finally{
+			this.classVisitor = new ClassVisitor(packageName);
+		}
 	}
 	
 	public void getTypeDeclarationFile(){
-		getClassOrInterface(cu);
+		getClassOrInterface();
 	}
 	
-	private void getClassOrInterface(CompilationUnit cu) {
+	private void getClassOrInterface() {
 		try{
-			classVisitor.visit(cu, null);
+			classVisitor.visit(getCu(), null);
 		}catch (Exception e){
        	 logger.error("Error: ",e);
 		}
