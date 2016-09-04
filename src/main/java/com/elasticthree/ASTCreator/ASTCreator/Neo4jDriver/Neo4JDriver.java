@@ -51,13 +51,14 @@ public class Neo4JDriver {
 	}
 
 	public void insertNeo4JDB(FileNodeAST fileNodeAST) {
-		
+		Driver driver = null;
+		Session session = null;
 		try {
 
 			if (fileNodeAST != null && getHost() != null) {
-				Driver driver = GraphDatabase.driver("bolt://" + getHost(),
+				driver = GraphDatabase.driver("bolt://" + getHost(),
 						AuthTokens.basic(getUsern(), getPassword()));
-				Session session = driver.session();
+				session = driver.session();
 				// File Node of AST
 				String fileNodeInsertQuery = "CREATE (";
 				fileNodeInsertQuery += "f:File {";
@@ -622,12 +623,14 @@ public class Neo4JDriver {
 	
 				session.run(fileNodeInsertQuery);
 	
-				session.close();
-				driver.close();
+				
 			}
 		}catch(Exception e){
 			logger.debug("Excetion : " , e);
 			return;
+		}finally{
+			session.close();
+			driver.close();
 		}
 	}
 
