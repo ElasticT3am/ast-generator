@@ -12,7 +12,7 @@ import com.elasticthree.ASTCreator.ASTCreator.Objects.AnnotationNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassHasMethodNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassImplementsNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.CommentsNodeAST;
+//import com.elasticthree.ASTCreator.ASTCreator.Objects.CommentsNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.FileNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceHasMethodNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceNodeAST;
@@ -135,28 +135,28 @@ public class Neo4JDriver {
 							}
 						}
 						
-						// Comments Node
-						if (classNode.getComments().size() > 0) {
-							for (int j=0; j < classNode.getComments().size(); j++){
-								CommentsNodeAST commentNode =  classNode.getComments().get(j);
-								fileNodeInsertQuery += ",(";
-								fileNodeInsertQuery += "class" + classNode.getName() 
-										+ "comment" + String.valueOf(j) + ":Comments {";
-								// Comment node property
-								fileNodeInsertQuery += "name:\'" 
-										+ commentNode.getName().replace(" ", "_") + "\'";
-								fileNodeInsertQuery += "})";
-								
-								// RELATION SHIP CLASS -> COMMENT
-								fileNodeInsertQuery += ",(" 
-										+ "class" + classNode.getName() + ")";
-								
-								fileNodeInsertQuery += "-[:HAS_COMMENTS]->"; 
-								fileNodeInsertQuery += "(" 
-										+ "class" + classNode.getName() 
-										+ "comment" + String.valueOf(j) + ")";		
-							}
-						}
+//						// Comments Node
+//						if (classNode.getComments().size() > 0) {
+//							for (int j=0; j < classNode.getComments().size(); j++){
+//								CommentsNodeAST commentNode =  classNode.getComments().get(j);
+//								fileNodeInsertQuery += ",(";
+//								fileNodeInsertQuery += "class" + classNode.getName() 
+//										+ "comment" + String.valueOf(j) + ":Comments {";
+//								// Comment node property
+//								fileNodeInsertQuery += "name:\'" 
+//										+ commentNode.getName() + "\'";
+//								fileNodeInsertQuery += "})";
+//								
+//								// RELATION SHIP CLASS -> COMMENT
+//								fileNodeInsertQuery += ",(" 
+//										+ "class" + classNode.getName() + ")";
+//								
+//								fileNodeInsertQuery += "-[:HAS_COMMENTS]->"; 
+//								fileNodeInsertQuery += "(" 
+//										+ "class" + classNode.getName() 
+//										+ "comment" + String.valueOf(j) + ")";		
+//							}
+//						}
 						
 						// Implements Interface Node
 						if (classNode.getImpl().size() > 0) {
@@ -250,32 +250,32 @@ public class Neo4JDriver {
 								}
 								
 								// Comments Node
-								if (methodNode.getComments().size() > 0) {
-									for (int k=0; k < methodNode.getComments().size(); k++){
-										CommentsNodeAST commentNode =  methodNode.getComments().get(k);
-										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method" + methodNode.getName() 
-												+ "comment" + String.valueOf(k)
-												+ commentNode.getName().trim()
-												+":Comments {";
-										// Comment node property
-										fileNodeInsertQuery += "name:\'" 
-												+ commentNode.getName() + "\'";
-										fileNodeInsertQuery += "})";
-										
-										// RELATION SHIP METHOD -> COMMENT
-										fileNodeInsertQuery += ",(" 
-												+ "class" + classNode.getName() 
-												+ "method" + String.valueOf(j) + ")";
-										
-										fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
-										fileNodeInsertQuery += "(" 
-												+ "method" + methodNode.getName() 
-												+ "comment" + String.valueOf(k)
-												+ commentNode.getName().trim()
-												+ ")";		
-									}
-								}
+//								if (methodNode.getComments().size() > 0) {
+//									for (int k=0; k < methodNode.getComments().size(); k++){
+//										CommentsNodeAST commentNode =  methodNode.getComments().get(k);
+//										fileNodeInsertQuery += ",(";
+//										fileNodeInsertQuery += "method" + methodNode.getName() 
+//												+ "comment" + String.valueOf(k)
+//												+ commentNode.getName().trim()
+//												+":Comments {";
+//										// Comment node property
+//										fileNodeInsertQuery += "name:\'" 
+//												+ commentNode.getName() + "\'";
+//										fileNodeInsertQuery += "})";
+//										
+//										// RELATION SHIP METHOD -> COMMENT
+//										fileNodeInsertQuery += ",(" 
+//												+ "class" + classNode.getName() 
+//												+ "method" + String.valueOf(j) + ")";
+//										
+//										fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
+//										fileNodeInsertQuery += "(" 
+//												+ "method" + methodNode.getName() 
+//												+ "comment" + String.valueOf(k)
+//												+ commentNode.getName().trim()
+//												+ ")";		
+//									}
+//								}
 								
 								// Parameter Node
 								if (methodNode.getParameters().size() > 0) {
@@ -417,27 +417,27 @@ public class Neo4JDriver {
 						}
 						
 						// Comments Node
-						if (interfaceNode.getComments().size() > 0) {
-							for (int j=0; j < interfaceNode.getComments().size(); j++){
-								CommentsNodeAST commentNode =  interfaceNode.getComments().get(j);
-								fileNodeInsertQuery += ",(";
-								fileNodeInsertQuery += "interface" + interfaceNode.getName() 
-										+ "comment" + String.valueOf(j) + ":Comments {";
-								// Comment node property
-								fileNodeInsertQuery += "name:\'" 
-										+ commentNode.getName() + "\'";
-								fileNodeInsertQuery += "})";
-								
-								// RELATION SHIP CLASS -> COMMENT
-								fileNodeInsertQuery += ",(" 
-										+ "interface" + interfaceNode.getName() + ")";
-								
-								fileNodeInsertQuery += "-[:HAS_COMMENTS]->"; 
-								fileNodeInsertQuery += "(" 
-										+ "interface" + interfaceNode.getName()
-										+ "comment" + String.valueOf(j) + ")";		
-							}
-						}
+//						if (interfaceNode.getComments().size() > 0) {
+//							for (int j=0; j < interfaceNode.getComments().size(); j++){
+//								CommentsNodeAST commentNode =  interfaceNode.getComments().get(j);
+//								fileNodeInsertQuery += ",(";
+//								fileNodeInsertQuery += "interface" + interfaceNode.getName() 
+//										+ "comment" + String.valueOf(j) + ":Comments {";
+//								// Comment node property
+//								fileNodeInsertQuery += "name:\'" 
+//										+ commentNode.getName() + "\'";
+//								fileNodeInsertQuery += "})";
+//								
+//								// RELATION SHIP CLASS -> COMMENT
+//								fileNodeInsertQuery += ",(" 
+//										+ "interface" + interfaceNode.getName() + ")";
+//								
+//								fileNodeInsertQuery += "-[:HAS_COMMENTS]->"; 
+//								fileNodeInsertQuery += "(" 
+//										+ "interface" + interfaceNode.getName()
+//										+ "comment" + String.valueOf(j) + ")";		
+//							}
+//						}
 						
 						// Method Node
 						if (interfaceNode.getMethod().size() > 0) {
@@ -508,32 +508,32 @@ public class Neo4JDriver {
 								}
 								
 								// Comments Node
-								if (methodNode.getComments().size() > 0) {
-									for (int k=0; k < methodNode.getComments().size(); k++){
-										CommentsNodeAST commentNode =  methodNode.getComments().get(k);
-										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method" + methodNode.getName() 
-												+ "comment" + String.valueOf(k)
-												+ commentNode.getName().trim()
-												+ ":Comments {";
-										// Comment node property
-										fileNodeInsertQuery += "name:\'" 
-												+ commentNode.getName() + "\'";
-										fileNodeInsertQuery += "})";
-										
-										// RELATION SHIP METHOD -> COMMENT
-										fileNodeInsertQuery += ",(" 
-												+ "interface" + interfaceNode.getName() 
-												+ "method" + String.valueOf(j) + ")";
-										
-										fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
-										fileNodeInsertQuery += "(" 
-												+ "method" + methodNode.getName() 
-												+ "comment" + String.valueOf(j)
-												+ commentNode.getName().trim()
-												+ ")";		
-									}
-								}
+//								if (methodNode.getComments().size() > 0) {
+//									for (int k=0; k < methodNode.getComments().size(); k++){
+//										CommentsNodeAST commentNode =  methodNode.getComments().get(k);
+//										fileNodeInsertQuery += ",(";
+//										fileNodeInsertQuery += "method" + methodNode.getName() 
+//												+ "comment" + String.valueOf(k)
+//												+ commentNode.getName().trim()
+//												+ ":Comments {";
+//										// Comment node property
+//										fileNodeInsertQuery += "name:\'" 
+//												+ commentNode.getName() + "\'";
+//										fileNodeInsertQuery += "})";
+//										
+//										// RELATION SHIP METHOD -> COMMENT
+//										fileNodeInsertQuery += ",(" 
+//												+ "interface" + interfaceNode.getName() 
+//												+ "method" + String.valueOf(j) + ")";
+//										
+//										fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
+//										fileNodeInsertQuery += "(" 
+//												+ "method" + methodNode.getName() 
+//												+ "comment" + String.valueOf(j)
+//												+ commentNode.getName().trim()
+//												+ ")";		
+//									}
+//								}
 								
 								// Parameter Node
 								if (methodNode.getParameters().size() > 0) {
