@@ -14,6 +14,8 @@ import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassImplementsNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.CommentsNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.FileNodeAST;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceHasMethodNodeAST;
+import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ParameterMethodNodeAST;
 import com.elasticthree.ASTCreator.ASTCreator.Objects.ThrowMethodNodeAST;
 
@@ -55,7 +57,6 @@ public class Neo4JDriver {
 					AuthTokens.basic(getUsern(), getPassword()));
 			Session session = driver.session();
 			// File Node of AST
-			logger.debug("// For testing we just printing the output");
 			String fileNodeInsertQuery = "CREATE (";
 			fileNodeInsertQuery += "f:File {";
 			// File node properties
@@ -69,6 +70,7 @@ public class Neo4JDriver {
 					+ String.valueOf(fileNodeAST.getNumberOfInterfaces()) + "\'";
 			fileNodeInsertQuery += "})";
 
+			// List of Classes
 			if (fileNodeAST.getNumberOfClasses() > 0) {
 				for (int i=0; i < fileNodeAST.getClasses().size(); i++){
 					ClassNodeAST classNode =  fileNodeAST.getClasses().get(i);
@@ -332,8 +334,239 @@ public class Neo4JDriver {
 				}
 			}
 
+			// List of interfaces
 			if (fileNodeAST.getNumberOfInterfaces() > 0) {
-
+				for (int i=0; i < fileNodeAST.getInterfaces().size(); i++){
+					InterfaceNodeAST interfaceNode =  fileNodeAST.getInterfaces().get(i);
+					fileNodeInsertQuery += ",(";
+					fileNodeInsertQuery += "interface" + interfaceNode.getName() + ":Interface {";
+					// Class node properties
+					if (interfaceNode.isHasFinalModifier())
+						fileNodeInsertQuery += "HasFinalModifier:\'"
+								+ String.valueOf(interfaceNode.isHasFinalModifier()) + "\',";
+					if (interfaceNode.isHasAbstractModifier())
+						fileNodeInsertQuery += "HasAbstractModifier:\'"
+								+ String.valueOf(interfaceNode.isHasAbstractModifier()) + "\',";
+					if (interfaceNode.isHasPrivateModifier())
+						fileNodeInsertQuery += "HasPrivateModifier:\'"
+								+ String.valueOf(interfaceNode.isHasPrivateModifier()) + "\',";
+					if (interfaceNode.isHasPublicModifier())
+						fileNodeInsertQuery += "HasPublicModifier:\'"
+								+ String.valueOf(interfaceNode.isHasPublicModifier()) + "\',";
+					if (interfaceNode.isHasProtectedModifier())
+						fileNodeInsertQuery += "HasProtectedModifier:\'"
+								+ String.valueOf(interfaceNode.isHasProtectedModifier()) + "\',";
+					if (interfaceNode.isHasStaticModifier())
+						fileNodeInsertQuery += "HasStaticModifier:\'"
+								+ String.valueOf(interfaceNode.isHasStaticModifier()) + "\',";
+					if (interfaceNode.isHasSynchronizeModifier())
+						fileNodeInsertQuery += "HasSynchronizeModifier:\'"
+								+ String.valueOf(interfaceNode.isHasSynchronizeModifier()) + "\',";
+					fileNodeInsertQuery += "package:\'" 
+							+ interfaceNode.getPackageName() + "\',";
+					fileNodeInsertQuery += "name:\'" 
+							+ interfaceNode.getName() + "\'";
+					fileNodeInsertQuery += "})";
+					
+					// Annotation Node
+					if (interfaceNode.getAnnotatios().size() > 0) {
+						for (int j=0; j < interfaceNode.getAnnotatios().size(); j++){
+							AnnotationNodeAST annotationNode =  interfaceNode.getAnnotatios().get(j);
+							fileNodeInsertQuery += ",(";
+							fileNodeInsertQuery += "interface" + interfaceNode.getName() 
+									+ "ann" + String.valueOf(j) + ":Annotation {";
+							// Annotation node property
+							fileNodeInsertQuery += "name:\'" 
+									+ annotationNode.getName() + "\'";
+							fileNodeInsertQuery += "})";
+							
+							// RELATION SHIP CLASS -> ANNOTATION
+							fileNodeInsertQuery += ",(" 
+									+ "interface" + interfaceNode.getName() + ")";
+							
+							fileNodeInsertQuery += "-[:HAS_ANNOTATION]->"; 
+							fileNodeInsertQuery += "(" 
+									+ "interface" + interfaceNode.getName()
+									+ "ann" + String.valueOf(j) + ")";		
+						}
+					}
+					
+					// Comments Node
+					if (interfaceNode.getComments().size() > 0) {
+						for (int j=0; j < interfaceNode.getComments().size(); j++){
+							CommentsNodeAST commentNode =  interfaceNode.getComments().get(j);
+							fileNodeInsertQuery += ",(";
+							fileNodeInsertQuery += "interface" + interfaceNode.getName() 
+									+ "comment" + String.valueOf(j) + ":Comments {";
+							// Comment node property
+							fileNodeInsertQuery += "name:\'" 
+									+ commentNode.getName() + "\'";
+							fileNodeInsertQuery += "})";
+							
+							// RELATION SHIP CLASS -> COMMENT
+							fileNodeInsertQuery += ",(" 
+									+ "interface" + interfaceNode.getName() + ")";
+							
+							fileNodeInsertQuery += "-[:HAS_COMMENTS]->"; 
+							fileNodeInsertQuery += "(" 
+									+ "interface" + interfaceNode.getName()
+									+ "comment" + String.valueOf(j) + ")";		
+						}
+					}
+					
+					// Method Node
+					if (interfaceNode.getMethod().size() > 0) {
+						for (int j=0; j < interfaceNode.getMethod().size(); j++){
+							InterfaceHasMethodNodeAST methodNode =  interfaceNode.getMethod().get(j);
+							fileNodeInsertQuery += ",(";
+							fileNodeInsertQuery += "interface" + interfaceNode.getName() 
+									+ "method" + String.valueOf(j) + ":Method {";
+							
+							if (methodNode.isHasFinalModifier())
+								fileNodeInsertQuery += "HasFinalModifier:\'"
+										+ String.valueOf(methodNode.isHasFinalModifier()) + "\',";
+							if (methodNode.isHasAbstractModifier())
+								fileNodeInsertQuery += "HasAbstractModifier:\'"
+										+ String.valueOf(methodNode.isHasAbstractModifier()) + "\',";
+							if (methodNode.isHasPrivateModifier())
+								fileNodeInsertQuery += "HasPrivateModifier:\'"
+										+ String.valueOf(methodNode.isHasPrivateModifier()) + "\',";
+							if (methodNode.isHasPublicModifier())
+								fileNodeInsertQuery += "HasPublicModifier:\'"
+										+ String.valueOf(methodNode.isHasPublicModifier()) + "\',";
+							if (methodNode.isHasProtectedModifier())
+								fileNodeInsertQuery += "HasProtectedModifier:\'"
+										+ String.valueOf(methodNode.isHasProtectedModifier()) + "\',";
+							if (methodNode.isHasStaticModifier())
+								fileNodeInsertQuery += "HasStaticModifier:\'"
+										+ String.valueOf(methodNode.isHasStaticModifier()) + "\',";
+							if (methodNode.isHasSynchronizeModifier())
+								fileNodeInsertQuery += "HasSynchronizeModifier:\'"
+										+ String.valueOf(methodNode.isHasSynchronizeModifier()) + "\',";
+							
+							fileNodeInsertQuery += "ReturningType:\'"
+									+ methodNode.getReturningType() + "\',";
+							fileNodeInsertQuery += "package:\'" 
+									+ methodNode.getPackageName() + "\',";
+							fileNodeInsertQuery += "name:\'" 
+									+ methodNode.getName() + "\'";
+							fileNodeInsertQuery += "})";
+							
+							//  Method's RelationShips 
+							
+							// Annotation Node
+							if (methodNode.getAnnotatios().size() > 0) {
+								for (int k=0; k < methodNode.getAnnotatios().size(); k++){
+									AnnotationNodeAST annotationNode =  methodNode.getAnnotatios().get(k);
+									fileNodeInsertQuery += ",(";
+									fileNodeInsertQuery += "method" + methodNode.getName() 
+											+ "ann" + String.valueOf(k) + ":Annotation {";
+									// Annotation node property
+									fileNodeInsertQuery += "name:\'" 
+											+ annotationNode.getName() + "\'";
+									fileNodeInsertQuery += "})";
+									
+									// RELATION SHIP METHOD -> ANNOTATION
+									fileNodeInsertQuery += ",(" 
+											+ "interface" + interfaceNode.getName()
+											+ "method" + String.valueOf(j)  + ")";
+									
+									fileNodeInsertQuery += "-[:HAS_ANNOTATION]->"; 
+									fileNodeInsertQuery += "(" 
+											+ "method" + methodNode.getName() 
+											+ "ann" + String.valueOf(k) + ")";		
+								}
+							}
+							
+							// Comments Node
+							if (methodNode.getComments().size() > 0) {
+								for (int k=0; k < methodNode.getComments().size(); k++){
+									CommentsNodeAST commentNode =  methodNode.getComments().get(k);
+									fileNodeInsertQuery += ",(";
+									fileNodeInsertQuery += "method" + methodNode.getName() 
+											+ "comment" + String.valueOf(k) + ":Comments {";
+									// Comment node property
+									fileNodeInsertQuery += "name:\'" 
+											+ commentNode.getName() + "\'";
+									fileNodeInsertQuery += "})";
+									
+									// RELATION SHIP METHOD -> COMMENT
+									fileNodeInsertQuery += ",(" 
+											+ "interface" + interfaceNode.getName() 
+											+ "method" + String.valueOf(j) + ")";
+									
+									fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
+									fileNodeInsertQuery += "(" 
+											+ "method" + methodNode.getName() 
+											+ "comment" + String.valueOf(j) + ")";		
+								}
+							}
+							
+							// Parameter Node
+							if (methodNode.getParameters().size() > 0) {
+								for (int k=0; k < methodNode.getParameters().size(); k++){
+									ParameterMethodNodeAST paramNode =  methodNode.getParameters().get(k);
+									fileNodeInsertQuery += ",(";
+									fileNodeInsertQuery += "method" + methodNode.getName() 
+											+ "param" + String.valueOf(k) + ":Parameter {";
+									// Parameter node property
+									fileNodeInsertQuery += "name:\'" 
+											+ paramNode.getName() + "\'";
+									fileNodeInsertQuery += "})";
+									
+									// RELATION SHIP METHOD -> PARAMETER
+									fileNodeInsertQuery += ",(" 
+											+ "interface" + interfaceNode.getName() 
+											+ "method" + String.valueOf(j) + ")";
+									
+									fileNodeInsertQuery += "-[:HAS_PARAMETER]->"; 
+									fileNodeInsertQuery += "(" 
+											+ "method" + methodNode.getName() 
+											+ "param" + String.valueOf(k) + ")";		
+								}
+							}
+							
+							// Throw Method Node
+							if (methodNode.getThrowsMethod().size() > 0) {
+								for (int k=0; k < methodNode.getThrowsMethod().size(); k++){
+									ThrowMethodNodeAST throwNode =  methodNode.getThrowsMethod().get(k);
+									fileNodeInsertQuery += ",(";
+									fileNodeInsertQuery += "method" + methodNode.getName() 
+											+ "throw" + String.valueOf(k) + ":Throw {";
+									// Throw node property
+									fileNodeInsertQuery += "name:\'" 
+											+ throwNode.getName() + "\'";
+									fileNodeInsertQuery += "})";
+									
+									// RELATION SHIP METHOD -> THROW
+									fileNodeInsertQuery += ",(" 
+											+ "interface" + interfaceNode.getName()
+											+ "method" + String.valueOf(j) + ")";
+									
+									fileNodeInsertQuery += "-[:HAS_THROW]->"; 
+									fileNodeInsertQuery += "(" 
+											+ "method" + methodNode.getName() 
+											+ "throw" + String.valueOf(k) + ")";		
+								}
+							}
+							// RELATION SHIP CLASS -> METHOD
+							fileNodeInsertQuery += ",(" 
+									+ "interface" + interfaceNode.getName()  + ")";
+							
+							fileNodeInsertQuery += "-[:HAS_METHOD]->"; 
+							fileNodeInsertQuery += "(" 
+									+ "interface" + interfaceNode.getName()
+									+ "method" + String.valueOf(j) + ")";		
+						}
+					}
+					// RELATION SHIP FILE -> CLASS
+					fileNodeInsertQuery += ",(" 
+							+ "f" + ")";
+					
+					fileNodeInsertQuery += "-[:HAS_INTERFACE]->"; 
+					fileNodeInsertQuery += "(" 
+							+ "interface" + interfaceNode.getName() + ")";
+				}
 			}
 
 			fileNodeInsertQuery += ";";
