@@ -142,7 +142,7 @@ public class Neo4JDriver {
 									+ "comment" + String.valueOf(j) + ":Comments {";
 							// Comment node property
 							fileNodeInsertQuery += "name:\'" 
-									+ commentNode.getName().trim() + "\'";
+									+ commentNode.getName().replace(" ", "_") + "\'";
 							fileNodeInsertQuery += "})";
 							
 							// RELATION SHIP CLASS -> COMMENT
@@ -258,7 +258,7 @@ public class Neo4JDriver {
 											+":Comments {";
 									// Comment node property
 									fileNodeInsertQuery += "name:\'" 
-											+ commentNode.getName().trim() + "\'";
+											+ commentNode.getName().replace(" ", "_") + "\'";
 									fileNodeInsertQuery += "})";
 									
 									// RELATION SHIP METHOD -> COMMENT
@@ -423,7 +423,7 @@ public class Neo4JDriver {
 									+ "comment" + String.valueOf(j) + ":Comments {";
 							// Comment node property
 							fileNodeInsertQuery += "name:\'" 
-									+ commentNode.getName().trim() + "\'";
+									+ commentNode.getName().replace(" ", "_") + "\'";
 							fileNodeInsertQuery += "})";
 							
 							// RELATION SHIP CLASS -> COMMENT
@@ -516,7 +516,7 @@ public class Neo4JDriver {
 											+ ":Comments {";
 									// Comment node property
 									fileNodeInsertQuery += "name:\'" 
-											+ commentNode.getName().trim() + "\'";
+											+ commentNode.getName().replace(" ", "_") + "\'";
 									fileNodeInsertQuery += "})";
 									
 									// RELATION SHIP METHOD -> COMMENT
