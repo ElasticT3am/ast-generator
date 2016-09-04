@@ -142,7 +142,7 @@ public class Neo4JDriver {
 									+ "comment" + String.valueOf(j) + ":Comments {";
 							// Comment node property
 							fileNodeInsertQuery += "name:\'" 
-									+ commentNode.getName() + "\'";
+									+ commentNode.getName().trim() + "\'";
 							fileNodeInsertQuery += "})";
 							
 							// RELATION SHIP CLASS -> COMMENT
@@ -226,7 +226,7 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
 											+ "ann" + String.valueOf(k)
-											+ annotationNode.getName()
+											+ annotationNode.getName().replace("@", "")
 											+ ":Annotation {";
 									// Annotation node property
 									fileNodeInsertQuery += "name:\'" 
@@ -242,7 +242,7 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
 											+ "ann" + String.valueOf(k)
-											+ annotationNode.getName()
+											+ annotationNode.getName().replace("@", "")
 											+ ")";		
 								}
 							}
@@ -253,12 +253,12 @@ public class Neo4JDriver {
 									CommentsNodeAST commentNode =  methodNode.getComments().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "comment" + String.valueOf(k) 
-											+ commentNode.getName()
+											+ "comment" + String.valueOf(k)
+											+ commentNode.getName().trim()
 											+":Comments {";
 									// Comment node property
 									fileNodeInsertQuery += "name:\'" 
-											+ commentNode.getName() + "\'";
+											+ commentNode.getName().trim() + "\'";
 									fileNodeInsertQuery += "})";
 									
 									// RELATION SHIP METHOD -> COMMENT
@@ -269,8 +269,8 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "comment" + String.valueOf(j) 
-											+ commentNode.getName()
+											+ commentNode.getName().trim()
+											+ "comment" + String.valueOf(k)
 											+ ")";		
 								}
 							}
@@ -283,6 +283,8 @@ public class Neo4JDriver {
 									typeParam = typeParam.replace("]", "");
 									typeParam = typeParam.replace("(", "");
 									typeParam = typeParam.replace(")", "");
+									typeParam = typeParam.replace("<", "");
+									typeParam = typeParam.replace(">", "");
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
 											+ "param" + String.valueOf(k) 
@@ -482,7 +484,7 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
 											+ "ann" + String.valueOf(k) 
-											+ annotationNode.getName()
+											+ annotationNode.getName().replace("@", "")
 											+ ":Annotation {";
 									// Annotation node property
 									fileNodeInsertQuery += "name:\'" 
@@ -498,7 +500,7 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
 											+ "ann" + String.valueOf(k) 
-											+ annotationNode.getName()
+											+ annotationNode.getName().replace("@", "")
 											+ ")";		
 								}
 							}
@@ -514,7 +516,7 @@ public class Neo4JDriver {
 											+ ":Comments {";
 									// Comment node property
 									fileNodeInsertQuery += "name:\'" 
-											+ commentNode.getName() + "\'";
+											+ commentNode.getName().trim() + "\'";
 									fileNodeInsertQuery += "})";
 									
 									// RELATION SHIP METHOD -> COMMENT
@@ -526,7 +528,7 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
 											+ "comment" + String.valueOf(j)
-											+ commentNode.getName()
+											+ commentNode.getName().trim()
 											+ ")";		
 								}
 							}
@@ -538,7 +540,8 @@ public class Neo4JDriver {
 									String typeParam = paramNode.getType().replace("[", "");
 									typeParam = typeParam.replace("]", "");
 									typeParam = typeParam.replace("(", "");
-									typeParam = typeParam.replace(")", "");
+									typeParam = typeParam.replace(">", "");
+									typeParam = typeParam.replace("<", "");
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
 											+ "param" + String.valueOf(k) 
