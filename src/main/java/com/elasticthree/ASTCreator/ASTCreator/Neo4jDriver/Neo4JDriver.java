@@ -225,7 +225,9 @@ public class Neo4JDriver {
 									AnnotationNodeAST annotationNode =  methodNode.getAnnotatios().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "ann" + String.valueOf(k) + ":Annotation {";
+											+ "ann" + String.valueOf(k)
+											+ annotationNode.getName()
+											+ ":Annotation {";
 									// Annotation node property
 									fileNodeInsertQuery += "name:\'" 
 											+ annotationNode.getName() + "\'";
@@ -239,7 +241,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_ANNOTATION]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "ann" + String.valueOf(k) + ")";		
+											+ "ann" + String.valueOf(k)
+											+ annotationNode.getName()
+											+ ")";		
 								}
 							}
 							
@@ -249,7 +253,9 @@ public class Neo4JDriver {
 									CommentsNodeAST commentNode =  methodNode.getComments().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "comment" + String.valueOf(k) + ":Comments {";
+											+ "comment" + String.valueOf(k) 
+											+ commentNode.getName()
+											+":Comments {";
 									// Comment node property
 									fileNodeInsertQuery += "name:\'" 
 											+ commentNode.getName() + "\'";
@@ -263,7 +269,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "comment" + String.valueOf(j) + ")";		
+											+ "comment" + String.valueOf(j) 
+											+ commentNode.getName()
+											+ ")";		
 								}
 							}
 							
@@ -271,12 +279,20 @@ public class Neo4JDriver {
 							if (methodNode.getParameters().size() > 0) {
 								for (int k=0; k < methodNode.getParameters().size(); k++){
 									ParameterMethodNodeAST paramNode =  methodNode.getParameters().get(k);
+									String typeParam = paramNode.getType().replace("[", "");
+									typeParam = typeParam.replace("]", "");
+									typeParam = typeParam.replace("(", "");
+									typeParam = typeParam.replace(")", "");
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "param" + String.valueOf(k) + ":Parameter {";
+											+ "param" + String.valueOf(k) 
+											+ paramNode.getName() + typeParam
+											+ ":Parameter {";
 									// Parameter node property
 									fileNodeInsertQuery += "name:\'" 
-											+ paramNode.getName() + "\'";
+											+ paramNode.getName() + "\',";
+									fileNodeInsertQuery += "type:\'" 
+											+ paramNode.getType() + "\'";
 									fileNodeInsertQuery += "})";
 									
 									// RELATION SHIP METHOD -> PARAMETER
@@ -287,7 +303,8 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_PARAMETER]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "param" + String.valueOf(k) + ")";		
+											+ "param" + String.valueOf(k)
+											+ paramNode.getName() + typeParam + ")";		
 								}
 							}
 							
@@ -297,7 +314,9 @@ public class Neo4JDriver {
 									ThrowMethodNodeAST throwNode =  methodNode.getThrowsMethod().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "throw" + String.valueOf(k) + ":Throw {";
+											+ "throw" + String.valueOf(k) 
+											+ throwNode.getName()
+											+ ":Throw {";
 									// Throw node property
 									fileNodeInsertQuery += "name:\'" 
 											+ throwNode.getName() + "\'";
@@ -311,7 +330,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_THROW]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "throw" + String.valueOf(k) + ")";		
+											+ "throw" + String.valueOf(k) 
+											+ throwNode.getName()
+											+ ")";		
 								}
 							}
 							// RELATION SHIP CLASS -> METHOD
@@ -400,7 +421,7 @@ public class Neo4JDriver {
 									+ "comment" + String.valueOf(j) + ":Comments {";
 							// Comment node property
 							fileNodeInsertQuery += "name:\'" 
-									+ commentNode.getName() + "\'";
+									+ commentNode.getName().trim() + "\'";
 							fileNodeInsertQuery += "})";
 							
 							// RELATION SHIP CLASS -> COMMENT
@@ -460,7 +481,9 @@ public class Neo4JDriver {
 									AnnotationNodeAST annotationNode =  methodNode.getAnnotatios().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "ann" + String.valueOf(k) + ":Annotation {";
+											+ "ann" + String.valueOf(k) 
+											+ annotationNode.getName()
+											+ ":Annotation {";
 									// Annotation node property
 									fileNodeInsertQuery += "name:\'" 
 											+ annotationNode.getName() + "\'";
@@ -474,7 +497,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_ANNOTATION]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "ann" + String.valueOf(k) + ")";		
+											+ "ann" + String.valueOf(k) 
+											+ annotationNode.getName()
+											+ ")";		
 								}
 							}
 							
@@ -484,7 +509,9 @@ public class Neo4JDriver {
 									CommentsNodeAST commentNode =  methodNode.getComments().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "comment" + String.valueOf(k) + ":Comments {";
+											+ "comment" + String.valueOf(k)
+											+ commentNode.getName().trim()
+											+ ":Comments {";
 									// Comment node property
 									fileNodeInsertQuery += "name:\'" 
 											+ commentNode.getName() + "\'";
@@ -498,7 +525,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_COMMENT]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "comment" + String.valueOf(j) + ")";		
+											+ "comment" + String.valueOf(j)
+											+ commentNode.getName()
+											+ ")";		
 								}
 							}
 							
@@ -506,12 +535,20 @@ public class Neo4JDriver {
 							if (methodNode.getParameters().size() > 0) {
 								for (int k=0; k < methodNode.getParameters().size(); k++){
 									ParameterMethodNodeAST paramNode =  methodNode.getParameters().get(k);
+									String typeParam = paramNode.getType().replace("[", "");
+									typeParam = typeParam.replace("]", "");
+									typeParam = typeParam.replace("(", "");
+									typeParam = typeParam.replace(")", "");
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "param" + String.valueOf(k) + ":Parameter {";
+											+ "param" + String.valueOf(k) 
+											+ paramNode.getName() + typeParam
+											+ ":Parameter {";
 									// Parameter node property
 									fileNodeInsertQuery += "name:\'" 
-											+ paramNode.getName() + "\'";
+											+ paramNode.getName() + "\',";
+									fileNodeInsertQuery += "type:\'" 
+											+ paramNode.getType() + "\'";
 									fileNodeInsertQuery += "})";
 									
 									// RELATION SHIP METHOD -> PARAMETER
@@ -522,7 +559,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_PARAMETER]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "param" + String.valueOf(k) + ")";		
+											+ "param" + String.valueOf(k) 
+											+ paramNode.getName() + typeParam
+											+ ")";		
 								}
 							}
 							
@@ -532,7 +571,9 @@ public class Neo4JDriver {
 									ThrowMethodNodeAST throwNode =  methodNode.getThrowsMethod().get(k);
 									fileNodeInsertQuery += ",(";
 									fileNodeInsertQuery += "method" + methodNode.getName() 
-											+ "throw" + String.valueOf(k) + ":Throw {";
+											+ "throw" + String.valueOf(k)
+											+ throwNode.getName()
+											+ ":Throw {";
 									// Throw node property
 									fileNodeInsertQuery += "name:\'" 
 											+ throwNode.getName() + "\'";
@@ -546,7 +587,9 @@ public class Neo4JDriver {
 									fileNodeInsertQuery += "-[:HAS_THROW]->"; 
 									fileNodeInsertQuery += "(" 
 											+ "method" + methodNode.getName() 
-											+ "throw" + String.valueOf(k) + ")";		
+											+ "throw" + String.valueOf(k) 
+											+ throwNode.getName()
+											+ ")";		
 								}
 							}
 							// RELATION SHIP CLASS -> METHOD
