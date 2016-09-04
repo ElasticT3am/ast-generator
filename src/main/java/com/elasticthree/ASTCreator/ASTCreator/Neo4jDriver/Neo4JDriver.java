@@ -572,7 +572,7 @@ public class Neo4JDriver {
 			fileNodeInsertQuery += ";";
 			logger.debug("fileNodeInsertQuery: " + fileNodeInsertQuery);
 
-			// session.run("CREATE (a:Person {name:'Arthur', title:'King'})");
+			session.run(fileNodeInsertQuery);
 
 			session.close();
 			driver.close();
