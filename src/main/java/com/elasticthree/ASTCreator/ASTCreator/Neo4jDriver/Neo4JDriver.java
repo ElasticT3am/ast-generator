@@ -1,23 +1,18 @@
 package com.elasticthree.ASTCreator.ASTCreator.Neo4jDriver;
 
+import com.elasticthree.ASTCreator.ASTCreator.Objects.*;
+import org.apache.log4j.Logger;
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
+import org.neo4j.driver.v1.Session;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-import org.neo4j.driver.v1.*;
-
-import com.elasticthree.ASTCreator.ASTCreator.Objects.AnnotationNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassHasMethodNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassImplementsNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.ClassNodeAST;
 //import com.elasticthree.ASTCreator.ASTCreator.Objects.CommentsNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.FileNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceHasMethodNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.InterfaceNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.ParameterMethodNodeAST;
-import com.elasticthree.ASTCreator.ASTCreator.Objects.ThrowMethodNodeAST;
 
 public class Neo4JDriver {
 
@@ -629,8 +624,10 @@ public class Neo4JDriver {
 			logger.debug("Excetion : " , e);
 			return;
 		}finally{
-			session.close();
-			driver.close();
+			if (session != null)
+				session.close();
+			if (driver != null)
+				driver.close();
 		}
 	}
 
