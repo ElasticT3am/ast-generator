@@ -68,7 +68,6 @@ public class ASTCreator {
 			try {
 				packageName = cu.getPackage().getName().toString();
 			} catch (NullPointerException n_e) {
-				logger.debug("Propably no package");
 				packageName = "No_package";
 			}
 			fileObject = new FileNodeAST(path_to_class, packageName,
