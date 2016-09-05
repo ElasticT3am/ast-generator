@@ -88,11 +88,12 @@ public class ASTCreator {
 		List<String> classes = RecursivelyProjectJavaFiles
 				.getProjectJavaFiles(args[0]);
 		ASTCreator ast = new ASTCreator();
+		Neo4JDriver neo4j = new Neo4JDriver();
 		classes.forEach(file -> {
-			logger.info("##################### Java File: " + file
-					+ " #####################");
-				new Neo4JDriver().insertNeo4JDB(ast.getASTStats(file));
+			logger.info("-> Java File: " + file );
+				neo4j.insertNeo4JDB(ast.getASTStats(file));
 		});
+		neo4j.closeDriverSession();
 
 	}
 
