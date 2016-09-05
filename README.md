@@ -1,24 +1,23 @@
 # ast-generator
-AST-generator provides the abstract syntax trees for a GitHub project.
+AST-generator project creates an Abstract Syntax Tree (AST) for each file of a Java project, translates them to graph models and inserts them to [Neo4J (Graph Distributed DB)](https://neo4j.com/) instance.
 
 ### Details
 
-* Abstract Syntax Tree
-
-Compilers, like java (javacc), often use an AST for the following bullets:
+Compilers, like java (javacc), often use an Abstract Syntax Tree (AST) for the following bullets:
   - AST summarizes grammatical structures without including all the details of the derivation.
   - ASTs are kind of intermediate representation which helps the compilation procedure
   - Visualisation of Abstract Syntax Tree 
 
 ![buffer oberon ast](https://cloud.githubusercontent.com/assets/11991105/18111997/e36981bc-6f2c-11e6-9c24-a736bc6874b5.png)
 
-**Ast-generator project** builds a basic AST for any GitHub project, using [javaparser project](http://javaparser.org/)
+**Ast-generator project** builds a basic AST for a Java project, using [javaparser project](http://javaparser.org/)
 
-User just passes GitHub project path (for AST) as argument and after runs the ast-generator java project (Maven project) 
 
 ### Installation / Running
 
-To run this project you have to create a file (config.properties) under the resource file with the Neo4J instance credentials
+To run this project you have to create a file (config.properties) under the resource file (like the screenshot below) with the Neo4J instance credentials
+
+![screen shot 2016-09-06 at 02 23 57](https://cloud.githubusercontent.com/assets/11991105/18258138/01f770f2-73d9-11e6-821d-3b47ec8535fb.png)
 
 > host = x.x.x.x
 
@@ -26,7 +25,7 @@ To run this project you have to create a file (config.properties) under the reso
 
 > neo4j_password = password
 
-* Running with Maven
+#### Running with Maven
 
 > mvn clean install
 
@@ -34,12 +33,14 @@ To run this project you have to create a file (config.properties) under the reso
 
 ### Results
 
+Using the following bullets you will see the graphs useing Neo4j browser
+
 * Go to Neo4j browser
 
 * Run this command
 
 > START n=node(*) RETURN n;
 
-* Virtualization of results
+* Visualization of results
 
 ![screen shot 2016-09-04 at 18 56 29](https://cloud.githubusercontent.com/assets/11991105/18232103/73a582a6-72d1-11e6-9011-f0a468595e3f.png)
