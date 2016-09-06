@@ -441,32 +441,6 @@ public class Neo4JDriver {
 							}
 						}
 
-						// Comments Node
-						// if (interfaceNode.getComments().size() > 0) {
-						// for (int j=0; j < interfaceNode.getComments().size();
-						// j++){
-						// CommentsNodeAST commentNode =
-						// interfaceNode.getComments().get(j);
-						// fileNodeInsertQuery += ",(";
-						// fileNodeInsertQuery += "interface" +
-						// interfaceNode.getName()
-						// + "comment" + String.valueOf(j) + ":Comments {";
-						// // Comment node property
-						// fileNodeInsertQuery += "name:\'"
-						// + commentNode.getName() + "\'";
-						// fileNodeInsertQuery += "})";
-						//
-						// // RELATION SHIP CLASS -> COMMENT
-						// fileNodeInsertQuery += ",("
-						// + "interface" + interfaceNode.getName() + ")";
-						//
-						// fileNodeInsertQuery += "-[:HAS_COMMENTS]->";
-						// fileNodeInsertQuery += "("
-						// + "interface" + interfaceNode.getName()
-						// + "comment" + String.valueOf(j) + ")";
-						// }
-						// }
-
 						// Method Node
 						if (interfaceNode.getMethod().size() > 0) {
 							for (int j = 0; j < interfaceNode.getMethod()
@@ -562,36 +536,6 @@ public class Neo4JDriver {
 									}
 								}
 
-								// Comments Node
-								// if (methodNode.getComments().size() > 0) {
-								// for (int k=0; k <
-								// methodNode.getComments().size(); k++){
-								// CommentsNodeAST commentNode =
-								// methodNode.getComments().get(k);
-								// fileNodeInsertQuery += ",(";
-								// fileNodeInsertQuery += "method" +
-								// methodNode.getName()
-								// + "comment" + String.valueOf(k)
-								// + commentNode.getName().trim()
-								// + ":Comments {";
-								// // Comment node property
-								// fileNodeInsertQuery += "name:\'"
-								// + commentNode.getName() + "\'";
-								// fileNodeInsertQuery += "})";
-								//
-								// // RELATION SHIP METHOD -> COMMENT
-								// fileNodeInsertQuery += ",("
-								// + "interface" + interfaceNode.getName()
-								// + "method" + String.valueOf(j) + ")";
-								//
-								// fileNodeInsertQuery += "-[:HAS_COMMENT]->";
-								// fileNodeInsertQuery += "("
-								// + "method" + methodNode.getName()
-								// + "comment" + String.valueOf(j)
-								// + commentNode.getName().trim()
-								// + ")";
-								// }
-								// }
 
 								// Parameter Node
 								if (methodNode.getParameters().size() > 0) {
