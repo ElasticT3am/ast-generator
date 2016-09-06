@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 public class RecursivelyProjectJavaFiles {
 	
 	final static Logger logger = Logger.getLogger(RecursivelyProjectJavaFiles.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	
 	public static List<String> getProjectJavaFiles(String path){
 		
 		List<String> allFiles = new ArrayList<String>();
@@ -38,6 +40,7 @@ public class RecursivelyProjectJavaFiles {
 			
 		} catch (IOException e) {
 			logger.error("IO Exception",e);
+			debugLog.error("IO Exception",e);
 		}
 		return allFiles;
 	}

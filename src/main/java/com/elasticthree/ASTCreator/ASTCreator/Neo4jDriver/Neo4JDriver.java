@@ -14,6 +14,9 @@ import java.util.Properties;
 public class Neo4JDriver {
 
 	final static Logger logger = Logger.getLogger(Neo4JDriver.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger resultLog = Logger.getLogger("reportsLogger");
+	
 	private String host;
 	private String usern;
 	private String password;
@@ -36,6 +39,7 @@ public class Neo4JDriver {
 			this.password = prop.getProperty("neo4j_password");
 		} catch (IOException ex) {
 			logger.debug("IOException: ", ex);
+			debugLog.debug("IOException: ", ex);
 			host = null;
 		} finally {
 			if (input != null) {
@@ -65,7 +69,14 @@ public class Neo4JDriver {
 	 */
 	public void insertNeo4JDB(FileNodeAST fileNodeAST) {
 
-		if (isNeo4jConnectionUp() && fileNodeAST != null) {
+		if (fileNodeAST == null){
+			logger.debug("AST File Object is null (Probably had parsing error)");
+			debugLog.debug("AST File Object is null (Probably had parsing error)");
+			return;
+		}
+		
+		
+		if (isNeo4jConnectionUp() ) {
 			try {
 				// File Node of AST
 				String fileNodeInsertQuery = "CREATE (";
@@ -629,17 +640,21 @@ public class Neo4JDriver {
 				}
 
 				fileNodeInsertQuery += ";";
-				logger.debug("Insertion Query: " + fileNodeInsertQuery);
+				logger.info("Insertion Query: " + fileNodeInsertQuery);
+				resultLog.info(fileNodeInsertQuery);
 
 				// Insert query on Neo4j graph DB
 				session.run(fileNodeInsertQuery);
 
 			} catch (Exception e) {
 				logger.debug("Excetion : ", e);
+				debugLog.debug("Excetion : ", e);
 				return;
 			}
-		} else
+		} else{
 			logger.debug("Driver or Session is down, check the configuration");
+			debugLog.debug("Driver or Session is down, check the configuration");
+		}
 	}
 
 	/*

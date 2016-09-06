@@ -17,8 +17,10 @@ import com.github.javaparser.ast.CompilationUnit;
 
 public class ASTCreator {
 
-	final static Logger logger = Logger.getLogger(ASTCreator.class);
-
+	static final Logger stdoutLog = Logger.getLogger(ASTCreator.class);
+	static final Logger debugLog = Logger.getLogger("debugLogger");
+	
+	
 	public ASTCreator() {
 	}
 
@@ -37,20 +39,18 @@ public class ASTCreator {
 		try {
 			in = new FileInputStream(path_to_class);
 		} catch (FileNotFoundException e) {
-			logger.debug("IO Error skip project from AST - Graph procedure");
+			debugLog.debug("IO Error skip project " + path_to_class + " from AST - Graph procedure");
 			return cu;
 		}
 		try {
 			cu = JavaParser.parse(in);
-		} catch (ParseException e) {
-			logger.debug("Parsing Error skip project from AST - Graph procedure");
 		} catch (Exception e1) {
-			logger.debug("Parsing Error skip project from AST - Graph procedure");
+			debugLog.debug("Parsing Error skip project " + path_to_class + " from AST - Graph procedure");
 		}
 		try {
 			in.close();
 		} catch (IOException e) {
-			logger.debug("IO Error skip project from AST - Graph procedure");
+			debugLog.debug("IO Error skip project " + path_to_class + " from AST - Graph procedure");
 		}
 		return cu;
 	}
@@ -75,10 +75,7 @@ public class ASTCreator {
 							.getClassVisitor().getNumberOfInterfaces());
 			fileObject.setClasses(ast.getClassVisitor().getClasses());
 			fileObject.setInterfaces(ast.getClassVisitor().getInterfaces());
-//			logger.info(fileObject.toString());
 		}
-		else
-			logger.debug("Skip project from AST - Graph procedure");
 		return fileObject;
 	}
 
@@ -89,8 +86,8 @@ public class ASTCreator {
 		ASTCreator ast = new ASTCreator();
 		Neo4JDriver neo4j = new Neo4JDriver();
 		classes.forEach(file -> {
-			logger.info("-> Java File: " + file );
-				neo4j.insertNeo4JDB(ast.getASTStats(file));
+			stdoutLog.info("-> Java File: " + file );
+			neo4j.insertNeo4JDB(ast.getASTStats(file));
 		});
 		neo4j.closeDriverSession();
 

@@ -4,11 +4,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import org.apache.log4j.Logger;
 import org.neo4j.driver.v1.*;
 
 
 public class TestDriver {
 
+	final static Logger stdoutLog = Logger.getLogger(TestDriver.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger resultLog = Logger.getLogger("reportsLogger");
 	private String host;
 	private String usern;
 	private String password;
@@ -41,7 +46,7 @@ public class TestDriver {
 		Driver driver = GraphDatabase.driver( "bolt://" + host, AuthTokens.basic( usern, password ) );
 		Session session = driver.session();
 		StatementResult result = session.run( "MATCH (n)-[:HAS_CLASS]-(x) RETURN x  Limit 5;" );
-		System.out.println("Nodes: " + result.list().size());
+		stdoutLog.info("Nodes: " + result.list().size());
 		session.close();
 		driver.close();
 	}

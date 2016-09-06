@@ -25,7 +25,9 @@ import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class ClassVisitor extends VoidVisitorAdapter<Object> {
+	
 	final static Logger logger = Logger.getLogger(ASTCreator.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
 
 	private final String packageFile;
 	private long numberOfClasses;
