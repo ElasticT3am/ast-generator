@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -81,14 +82,14 @@ public class ASTCreator {
 
 	public static void main(String[] args) {
 		PropertyConfigurator.configure("resources/log4j.properties");
-		List<String> classes = RecursivelyProjectJavaFiles
+		Map<String, Long> classes = RecursivelyProjectJavaFiles
 				.getProjectJavaFiles(args[0]);
 		ASTCreator ast = new ASTCreator();
 		Neo4JDriver neo4j = new Neo4JDriver();
-		classes.forEach(file -> {
-			stdoutLog.info("-> Java File: " + file );
-			neo4j.insertNeo4JDB(ast.getASTStats(file));
-		});
+		for(String clazz: classes.keySet()) {
+			stdoutLog.info("-> Java File: " + clazz );
+			neo4j.insertNeo4JDB(ast.getASTStats(clazz));
+		}
 		neo4j.closeDriverSession();
 
 	}
