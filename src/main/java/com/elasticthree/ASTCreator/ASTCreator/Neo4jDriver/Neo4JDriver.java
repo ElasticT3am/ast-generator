@@ -60,6 +60,31 @@ public class Neo4JDriver {
 		}
 
 	}
+	
+	/**
+	 * Inserting AST to Neo4J instance through log file
+	 * @param query
+	 */
+	public void insertNeo4JDBLogFile(String query){
+		
+		if (isNeo4jConnectionUp() ) {
+			
+			try{
+				// Insert query on Neo4j graph DB
+				session.run(query);
+				logger.info("Insertion Query: " + query);
+
+			} catch (Exception e) {
+				logger.debug("Excetion : ", e);
+				debugLog.debug("Excetion : ", e);
+				return;
+			}
+		} else{
+			logger.debug("Driver or Session is down, check the configuration");
+			debugLog.debug("Driver or Session is down, check the configuration");
+		}
+		
+	}
 
 	/**
 	 * Inserting AST to Neo4J instance
