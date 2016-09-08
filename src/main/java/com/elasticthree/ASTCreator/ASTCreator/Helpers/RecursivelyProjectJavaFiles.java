@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -15,9 +13,9 @@ public class RecursivelyProjectJavaFiles {
 	final static Logger logger = Logger.getLogger(RecursivelyProjectJavaFiles.class);
 	final static Logger debugLog = Logger.getLogger("debugLogger");
 	
-	public static Map<String, Long> getProjectJavaFiles(String path){
+	public static List<String> getProjectJavaFiles(String path){
 		
-		Map<String, Long> allFiles = new HashMap<>();
+		List<String> allFiles = new ArrayList<String>();
 		
 		// Java8 lambda expression manner getting recursively all files
 		try {
@@ -37,12 +35,10 @@ public class RecursivelyProjectJavaFiles {
 			 })
 			.filter(p -> p.toFile().getName().endsWith(".java"))
 			.forEach(tmpnam -> {
-				try {
-					allFiles.put(tmpnam.toString(), Files.lines(tmpnam).count());
-					Files.lines(tmpnam);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				allFiles.add(tmpnam.toString() /*, Files.lines(tmpnam).count()*/);
+				// I don't know if the following command is necessary
+				// I comment out
+				//Files.lines(tmpnam);
 			});
 			
 		} catch (IOException e) {
