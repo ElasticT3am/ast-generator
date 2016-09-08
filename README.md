@@ -29,8 +29,12 @@ To run this project you have to create a file (config.properties) under the reso
 
 > mvn clean install
 
-> mvn -Dexec.args="path_to_project"  -Dexec.mainClass="com.elasticthree.ASTCreator.ASTCreator.ASTCreator" exec:java
+> mvn -Dexec.args="path_to_project URL_Of_project"  -Dexec.mainClass="com.elasticthree.ASTCreator.ASTCreator.ASTCreator" exec:java
 
+Observation
+
+URL_Of_project parameter is useful for Neo4j stats. If you don't have an unique URL, you can pass the same value as path_to_project
+ 
 ### Results
 
 Using the following bullets you will see the graphs useing Neo4j browser
@@ -44,3 +48,10 @@ Using the following bullets you will see the graphs useing Neo4j browser
 * Visualization of results
 
 ![screen shot 2016-09-04 at 18 56 29](https://cloud.githubusercontent.com/assets/11991105/18232103/73a582a6-72d1-11e6-9011-f0a468595e3f.png)
+
+*  Query for Total number of Java Code lines and total number of Repos in Neo4j instance
+
+> MATCH (nodes:Repo) RETURN SUM(nodes.linesOfJavaCode) as TotalJavaCode, count(nodes) as TotalNodes;
+
+![screen shot 2016-09-08 at 03 25 07](https://cloud.githubusercontent.com/assets/11991105/18333027/f7d59cec-7573-11e6-898a-dcd78d650117.png)
+
