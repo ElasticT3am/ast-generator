@@ -49,7 +49,7 @@ Using the following bullets you will see the graphs useing Neo4j browser
 
 ![screen shot 2016-09-04 at 18 56 29](https://cloud.githubusercontent.com/assets/11991105/18232103/73a582a6-72d1-11e6-9011-f0a468595e3f.png)
 
-*  Query for Total number of Lines of Java Code and number of Repos in Neo4j instance
+*  Query for Total number of Java Code lines and total number of Repos in Neo4j instance
 
 > MATCH (nodes:Repo) RETURN SUM(nodes.linesOfJavaCode) as TotalJavaCode, count(nodes) as TotalNodes;
 
