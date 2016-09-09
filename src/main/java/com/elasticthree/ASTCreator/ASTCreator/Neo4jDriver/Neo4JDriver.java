@@ -312,7 +312,9 @@ public class Neo4JDriver {
 										AnnotationNodeAST annotationNode = methodNode
 												.getAnnotatios().get(k);
 										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method"
+										fileNodeInsertQuery += 
+												classNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j)
 												+ "ann"
@@ -336,7 +338,9 @@ public class Neo4JDriver {
 										fileNodeInsertQuery += "-[:"
 												+ StaticVariables.has_annotationPropertyName
 												+ "]->";
-										fileNodeInsertQuery += "(" + "method"
+										fileNodeInsertQuery += "("
+												+ classNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "ann"
 												+ String.valueOf(k) + ")";
@@ -350,7 +354,9 @@ public class Neo4JDriver {
 										ParameterMethodNodeAST paramNode = methodNode
 												.getParameters().get(k);
 										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method"
+										fileNodeInsertQuery +=
+												classNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j)
 												+ "param"
@@ -378,7 +384,9 @@ public class Neo4JDriver {
 										fileNodeInsertQuery += "-[:"
 												+ StaticVariables.has_parameterPropertyName
 												+ "]->";
-										fileNodeInsertQuery += "(" + "method"
+										fileNodeInsertQuery += "(" 
+												+ classNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "param"
 												+ String.valueOf(k)
@@ -393,7 +401,9 @@ public class Neo4JDriver {
 										ThrowMethodNodeAST throwNode = methodNode
 												.getThrowsMethod().get(k);
 										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method"
+										fileNodeInsertQuery += 
+												classNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "throw"
 												+ String.valueOf(k)
@@ -416,7 +426,9 @@ public class Neo4JDriver {
 										fileNodeInsertQuery += "-[:"
 												+ StaticVariables.has_throwPropertyName
 												+ "]->";
-										fileNodeInsertQuery += "(" + "method"
+										fileNodeInsertQuery += "(" 
+												+ classNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "throw"
 												+ String.valueOf(k)
@@ -597,7 +609,9 @@ public class Neo4JDriver {
 										AnnotationNodeAST annotationNode = methodNode
 												.getAnnotatios().get(k);
 										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method"
+										fileNodeInsertQuery += 
+												interfaceNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j)
 												+ "ann"
@@ -622,7 +636,9 @@ public class Neo4JDriver {
 										fileNodeInsertQuery += "-[:"
 												+ StaticVariables.has_annotationPropertyName
 												+ "]->";
-										fileNodeInsertQuery += "(" + "method"
+										fileNodeInsertQuery += "(" 
+												+ interfaceNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "ann"
 												+ String.valueOf(k) + ")";
@@ -636,7 +652,9 @@ public class Neo4JDriver {
 										ParameterMethodNodeAST paramNode = methodNode
 												.getParameters().get(k);
 										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method"
+										fileNodeInsertQuery +=
+												interfaceNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j)
 												+ "param"
@@ -665,7 +683,9 @@ public class Neo4JDriver {
 										fileNodeInsertQuery += "-[:"
 												+ StaticVariables.has_parameterPropertyName
 												+ "]->";
-										fileNodeInsertQuery += "(" + "method"
+										fileNodeInsertQuery += "(" 
+												+ interfaceNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "param"
 												+ String.valueOf(k) + ")";
@@ -679,7 +699,9 @@ public class Neo4JDriver {
 										ThrowMethodNodeAST throwNode = methodNode
 												.getThrowsMethod().get(k);
 										fileNodeInsertQuery += ",(";
-										fileNodeInsertQuery += "method"
+										fileNodeInsertQuery +=
+												interfaceNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "throw"
 												+ String.valueOf(k) + ":"
@@ -702,7 +724,9 @@ public class Neo4JDriver {
 										fileNodeInsertQuery += "-[:"
 												+ StaticVariables.has_throwPropertyName
 												+ "]->";
-										fileNodeInsertQuery += "(" + "method"
+										fileNodeInsertQuery += "(" 
+												+ interfaceNode.getName()
+												+ "method"
 												+ methodNode.getName()
 												+ String.valueOf(j) + "throw"
 												+ String.valueOf(k) + ")";
