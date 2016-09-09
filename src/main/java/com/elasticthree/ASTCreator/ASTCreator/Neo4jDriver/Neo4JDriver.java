@@ -355,7 +355,6 @@ public class Neo4JDriver {
 												+ String.valueOf(j)
 												+ "param"
 												+ String.valueOf(k)
-												+ paramNode.getName()
 												+ ":"
 												+ StaticVariables.parameterNodeName
 												+ " {";
@@ -383,7 +382,7 @@ public class Neo4JDriver {
 												+ methodNode.getName()
 												+ String.valueOf(j) + "param"
 												+ String.valueOf(k)
-												+ paramNode.getName() + ")";
+												+ ")";
 									}
 								}
 
@@ -398,7 +397,7 @@ public class Neo4JDriver {
 												+ methodNode.getName()
 												+ String.valueOf(j) + "throw"
 												+ String.valueOf(k)
-												+ throwNode.getName() + ":"
+												+ ":"
 												+ StaticVariables.throwNodeName
 												+ " {";
 										// Throw node property
@@ -421,7 +420,7 @@ public class Neo4JDriver {
 												+ methodNode.getName()
 												+ String.valueOf(j) + "throw"
 												+ String.valueOf(k)
-												+ throwNode.getName() + ")";
+												+ ")";
 									}
 								}
 								// RELATION SHIP CLASS -> METHOD
