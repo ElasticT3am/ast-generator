@@ -11,7 +11,7 @@ public class ClassMethodDeclarationAST {
 	private CompilationUnit cu;
 	private ClassVisitor classVisitor;
 
-	public ClassMethodDeclarationAST(CompilationUnit cu, String pathClass){
+	public ClassMethodDeclarationAST(CompilationUnit cu, String repoURL, String pathClass){
 		setCu(cu);
 		String packageName = "";
 		try{
@@ -21,7 +21,7 @@ public class ClassMethodDeclarationAST {
 			packageName = "No_package";
 		}
 		finally{
-			setClassVisitor(new ClassVisitor(packageName));
+			setClassVisitor(new ClassVisitor(repoURL,packageName));
 		}
 	}
 	

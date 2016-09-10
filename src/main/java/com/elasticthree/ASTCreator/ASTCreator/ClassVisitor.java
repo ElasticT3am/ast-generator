@@ -25,22 +25,28 @@ import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class ClassVisitor extends VoidVisitorAdapter<Object> {
-	
+
 	final static Logger logger = Logger.getLogger(ASTCreator.class);
 	final static Logger debugLog = Logger.getLogger("debugLogger");
 
-	private final String packageFile;
+	private String repoURL;
+	private String packageFile;
 	private long numberOfClasses;
 	private long numberOfInterfaces;
 	private List<ClassNodeAST> classes;
 	private List<InterfaceNodeAST> interfaces;
 
-	public ClassVisitor(String pacName) {
-		this.packageFile = pacName;
+	public ClassVisitor(String repoURL, String pacName) {
+		setRepoURL(repoURL);
+		setPackageFile(pacName);
 		setNumberOfClasses(0);
 		setNumberOfInterfaces(0);
 		setClasses(new ArrayList<ClassNodeAST>());
 		setInterfaces(new ArrayList<InterfaceNodeAST>());
+	}
+
+	public void setPackageFile(String packageFile) {
+		this.packageFile = packageFile;
 	}
 
 	@Override
@@ -59,11 +65,11 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 			parsingInterface(n);
 		}
 	}
-	
-	private void parsingClass(ClassOrInterfaceDeclaration n){
+
+	private void parsingClass(ClassOrInterfaceDeclaration n) {
 		numberOfClasses++;
-		
-		ClassNodeAST classNode = new ClassNodeAST(n.getName(),
+
+		ClassNodeAST classNode = new ClassNodeAST(getRepoURL(), n.getName(),
 				getPackageFile());
 		classNode.setAllModifiers(n.getModifiers());
 		if (n.getExtends() != null) {
@@ -110,39 +116,44 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 					ClassHasMethodNodeAST methodClass = new ClassHasMethodNodeAST(
 							method.getName(), getPackageFile());
 					methodClass.setReturningType(method.getType().toString());
-					
+
 					if (method.getAllContainedComments().size() != 0) {
 						List<CommentsNodeAST> commentsMethod = new ArrayList<CommentsNodeAST>();
-						for (Comment comment : method.getAllContainedComments()){
-							commentsMethod.add(new CommentsNodeAST(comment.toString()));
+						for (Comment comment : method.getAllContainedComments()) {
+							commentsMethod.add(new CommentsNodeAST(comment
+									.toString()));
 						}
 						methodClass.setComments(commentsMethod);
 					}
-					
+
 					if (method.getAnnotations().size() != 0) {
 						List<AnnotationNodeAST> annotatiosMethod = new ArrayList<AnnotationNodeAST>();
-						for (AnnotationExpr ann : method.getAnnotations()){
-							annotatiosMethod.add(new AnnotationNodeAST(ann.toString()));
+						for (AnnotationExpr ann : method.getAnnotations()) {
+							annotatiosMethod.add(new AnnotationNodeAST(ann
+									.toString()));
 						}
 						methodClass.setAnnotatios(annotatiosMethod);
 					}
-					
+
 					if (method.getParameters().size() != 0) {
 						List<ParameterMethodNodeAST> parametersMethod = new ArrayList<ParameterMethodNodeAST>();
 						for (Parameter param : method.getParameters()) {
-							parametersMethod.add(new ParameterMethodNodeAST(param.getType().toString(), param.getName().toString()));
+							parametersMethod.add(new ParameterMethodNodeAST(
+									param.getType().toString(), param.getName()
+											.toString()));
 						}
 						methodClass.setParameters(parametersMethod);
 					}
-					
+
 					if (method.getThrows().size() != 0) {
 						List<ThrowMethodNodeAST> throwsMethod = new ArrayList<ThrowMethodNodeAST>();
-						for (ReferenceType reftype : method.getThrows()){
-							throwsMethod.add(new ThrowMethodNodeAST(reftype.toString()));
+						for (ReferenceType reftype : method.getThrows()) {
+							throwsMethod.add(new ThrowMethodNodeAST(reftype
+									.toString()));
 						}
 						methodClass.setThrowsMethod(throwsMethod);
 					}
-					
+
 					methodClass.setAllModifiers(method.getModifiers());
 					classMethodNode.add(methodClass);
 					classNode.setMethod(classMethodNode);
@@ -152,12 +163,13 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 		}
 		getClasses().add(classNode);
 	}
-	
-	private void parsingInterface(ClassOrInterfaceDeclaration n){
+
+	private void parsingInterface(ClassOrInterfaceDeclaration n) {
 		numberOfInterfaces++;
-		InterfaceNodeAST interfaceNode = new InterfaceNodeAST(n.getName(),getPackageFile());
+		InterfaceNodeAST interfaceNode = new InterfaceNodeAST(getRepoURL(),
+				n.getName(), getPackageFile());
 		interfaceNode.setAllModifiers(n.getModifiers());
-		
+
 		if (n.getAnnotations().size() != 0) {
 			List<AnnotationNodeAST> interfAnn = new ArrayList<AnnotationNodeAST>();
 			for (AnnotationExpr ann : n.getAnnotations()) {
@@ -174,7 +186,7 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 			}
 			interfaceNode.setComments(interfComment);
 		}
-		
+
 		// Method parser of Interface
 		if (n.getMembers().size() != 0) {
 			long numberOfMethodsPerInterface = 0;
@@ -185,40 +197,46 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 					MethodDeclaration method = (MethodDeclaration) member;
 					InterfaceHasMethodNodeAST methodInterface = new InterfaceHasMethodNodeAST(
 							method.getName(), getPackageFile());
-					methodInterface.setReturningType(method.getType().toString());
-					
+					methodInterface.setReturningType(method.getType()
+							.toString());
+
 					if (method.getAllContainedComments().size() != 0) {
 						List<CommentsNodeAST> commentsMethod = new ArrayList<CommentsNodeAST>();
-						for (Comment comment : method.getAllContainedComments()){
-							commentsMethod.add(new CommentsNodeAST(comment.toString()));
+						for (Comment comment : method.getAllContainedComments()) {
+							commentsMethod.add(new CommentsNodeAST(comment
+									.toString()));
 						}
 						methodInterface.setComments(commentsMethod);
 					}
-					
+
 					if (method.getAnnotations().size() != 0) {
 						List<AnnotationNodeAST> annotatiosMethod = new ArrayList<AnnotationNodeAST>();
-						for (AnnotationExpr ann : method.getAnnotations()){
-							annotatiosMethod.add(new AnnotationNodeAST(ann.toString()));
+						for (AnnotationExpr ann : method.getAnnotations()) {
+							annotatiosMethod.add(new AnnotationNodeAST(ann
+									.toString()));
 						}
 						methodInterface.setAnnotatios(annotatiosMethod);
 					}
-					
+
 					if (method.getParameters().size() != 0) {
 						List<ParameterMethodNodeAST> parametersMethod = new ArrayList<ParameterMethodNodeAST>();
 						for (Parameter param : method.getParameters()) {
-							parametersMethod.add(new ParameterMethodNodeAST(param.getType().toString(), param.getName().toString()));
+							parametersMethod.add(new ParameterMethodNodeAST(
+									param.getType().toString(), param.getName()
+											.toString()));
 						}
 						methodInterface.setParameters(parametersMethod);
 					}
-					
+
 					if (method.getThrows().size() != 0) {
 						List<ThrowMethodNodeAST> throwsMethod = new ArrayList<ThrowMethodNodeAST>();
-						for (ReferenceType reftype : method.getThrows()){
-							throwsMethod.add(new ThrowMethodNodeAST(reftype.toString()));
+						for (ReferenceType reftype : method.getThrows()) {
+							throwsMethod.add(new ThrowMethodNodeAST(reftype
+									.toString()));
 						}
 						methodInterface.setThrowsMethod(throwsMethod);
 					}
-					
+
 					methodInterface.setAllModifiers(method.getModifiers());
 					interfMethodNode.add(methodInterface);
 					interfaceNode.setMethod(interfMethodNode);
@@ -263,6 +281,14 @@ public class ClassVisitor extends VoidVisitorAdapter<Object> {
 
 	public void setInterfaces(List<InterfaceNodeAST> interfaces) {
 		this.interfaces = interfaces;
+	}
+
+	public String getRepoURL() {
+		return repoURL;
+	}
+
+	public void setRepoURL(String repoURL) {
+		this.repoURL = repoURL;
 	}
 
 }

@@ -6,7 +6,7 @@ import java.lang.reflect.Modifier;
 
 public class ClassNodeAST {
 
-	private String id;
+	private String repoURL;
 	private String name;
 	private String packageName;
 	private String extendsClass;
@@ -23,11 +23,11 @@ public class ClassNodeAST {
 	private List<ClassImplementsNodeAST> impl;
 	private List<ClassHasMethodNodeAST> method;
 
-	public ClassNodeAST(String name, String packageName) {
-		this.setId(packageName + "-ClassNode-" + name);
-		this.name = name;
-		this.packageName = packageName;
-		this.extendsClass = "None";
+	public ClassNodeAST(String repoURL, String name, String packageName) {
+		setRepoURL(repoURL);
+		setName(name);
+		setPackageName(packageName);
+		setExtendsClass("None");
 		hasFinalModifier = false;
 		hasAbstractModifier = false;
 		hasPrivateModifier = false;
@@ -130,14 +130,6 @@ public class ClassNodeAST {
 		this.hasSynchronizeModifier = hasSynchronizeModifier;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public List<AnnotationNodeAST> getAnnotatios() {
 		return annotatios;
 	}
@@ -197,7 +189,7 @@ public class ClassNodeAST {
 	
 	@Override
 	public String toString(){
-		String to_string = "[ \'ID: " + id + "\', \'Package : " + packageName + "\', \'Name: " 
+		String to_string = "[ \'repoURL: " + repoURL + "\', \'Package : " + packageName + "\', \'Name: " 
 				+ name  
 				+ "\', \'ExtendsClass: " + extendsClass 
 				+ "\', \'NumberOfMethods : " + numberOfMethods
@@ -227,6 +219,14 @@ public class ClassNodeAST {
 		}
 		
 		return to_string;
+	}
+
+	public String getRepoURL() {
+		return repoURL;
+	}
+
+	public void setRepoURL(String repoURL) {
+		this.repoURL = repoURL;
 	}
 
 }

@@ -110,6 +110,8 @@ public class Neo4JDriver {
 				fileNodeInsertQuery += "f:" + StaticVariables.fileNodeName
 						+ " {";
 				// File node properties
+				fileNodeInsertQuery += StaticVariables.URLRepoPropertyName
+						+ ":\'" + fileNodeAST.getRepoURL() + "\',";
 				fileNodeInsertQuery += StaticVariables.packagePropertyName
 						+ ":\'" + fileNodeAST.getPackageName() + "\',";
 				fileNodeInsertQuery += StaticVariables.namePropertyName + ":\'"
@@ -177,6 +179,8 @@ public class Neo4JDriver {
 								+ ":"
 								+ String.valueOf(classNode.getNumberOfMethods())
 								+ ",";
+						fileNodeInsertQuery += StaticVariables.URLRepoPropertyName
+								+ ":\'" + classNode.getRepoURL() + "\',";
 						fileNodeInsertQuery += StaticVariables.packageClassPropertyName
 								+ ":\'" + classNode.getPackageName() + "\',";
 						fileNodeInsertQuery += StaticVariables.nameClassPropertyName
@@ -318,6 +322,8 @@ public class Neo4JDriver {
 										+ ":\'"
 										+ methodNode.getReturningType()
 										+ "\',";
+								fileNodeInsertQuery += StaticVariables.URLRepoPropertyName
+										+ ":\'" + classNode.getRepoURL() + "\',";
 								fileNodeInsertQuery += StaticVariables.packageMethodPropertyName
 										+ ":\'"
 										+ methodNode.getPackageName()
@@ -551,6 +557,8 @@ public class Neo4JDriver {
 									+ String.valueOf(interfaceNode
 											.isHasSynchronizeModifier())
 									+ "\',";
+						fileNodeInsertQuery += StaticVariables.URLRepoPropertyName
+								+ ":\'" + interfaceNode.getRepoURL() + "\',";
 						fileNodeInsertQuery += StaticVariables.packageInterfacePropertyName
 								+ ":\'"
 								+ interfaceNode.getPackageName()
@@ -654,6 +662,8 @@ public class Neo4JDriver {
 										+ ":\'"
 										+ methodNode.getReturningType()
 										+ "\',";
+								fileNodeInsertQuery += StaticVariables.URLRepoPropertyName
+										+ ":\'" + interfaceNode.getRepoURL() + "\',";
 								fileNodeInsertQuery += StaticVariables.packageMethodPropertyName
 										+ ":\'"
 										+ methodNode.getPackageName()

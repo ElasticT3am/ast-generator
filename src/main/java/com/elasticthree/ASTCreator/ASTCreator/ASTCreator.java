@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -68,6 +69,7 @@ public class ASTCreator {
 
 	/**
 	 * This function creates AST (Abstract syntax tree) for a Java file
+	 * 
 	 * @param path_to_class
 	 * @return
 	 */
@@ -78,7 +80,7 @@ public class ASTCreator {
 		cu = getClassCompilationUnit(path_to_class);
 		if (cu != null) {
 			ClassMethodDeclarationAST ast = new ClassMethodDeclarationAST(cu,
-					path_to_class);
+					getRepoURL(), path_to_class);
 			ast.getTypeDeclarationFile();
 			String packageName = "";
 			try {
@@ -86,9 +88,9 @@ public class ASTCreator {
 			} catch (NullPointerException n_e) {
 				packageName = "No_package";
 			}
-			fileObject = new FileNodeAST(path_to_class, packageName, ast
-					.getClassVisitor().getNumberOfClasses(), ast
-					.getClassVisitor().getNumberOfInterfaces());
+			fileObject = new FileNodeAST(getRepoURL(), path_to_class,
+					packageName, ast.getClassVisitor().getNumberOfClasses(),
+					ast.getClassVisitor().getNumberOfInterfaces());
 			fileObject.setClasses(ast.getClassVisitor().getClasses());
 			fileObject.setInterfaces(ast.getClassVisitor().getInterfaces());
 		}
@@ -96,8 +98,8 @@ public class ASTCreator {
 	}
 
 	/**
-	 * This function runs the AST and inserts it in Neo4j
-	 * instance for all Java files of a Java Project
+	 * This function runs the AST and inserts it in Neo4j instance for all Java
+	 * files of a Java Project
 	 * 
 	 * @param classes
 	 */
@@ -105,13 +107,19 @@ public class ASTCreator {
 		classes.forEach(file -> {
 			stdoutLog.info("-> Java File: " + file);
 			FileNodeAST fileNode = getASTFileObject(file);
-			if (fileNode != null){
-				neo4j.insertNeo4JDB(getASTFileObject(file));
+			if (fileNode != null) {
+				neo4j.insertNeo4JDB(fileNode);
+				Stream<String> lines = null;
 				try {
-					addJavaLinesOfCode(Files.lines(Paths.get(file)).count());
+					lines = Files.lines(Paths.get(file));
+					addJavaLinesOfCode(lines.count());
 				} catch (Exception e) {
 					stdoutLog.debug("Error", e);
 					debugLog.debug("Error", e);
+				}
+				finally {
+					if (lines != null)
+						lines.close();
 				}
 			}
 		});
@@ -152,7 +160,7 @@ public class ASTCreator {
 	public void setJavaLinesOfCode(long javaLinesOfCode) {
 		this.javaLinesOfCode = javaLinesOfCode;
 	}
-	
+
 	public void addJavaLinesOfCode(long javaLinesOfCode) {
 		this.javaLinesOfCode += javaLinesOfCode;
 	}

@@ -47,7 +47,7 @@ public class StaticVariables {
 	//////////
 	
 	public static final String repoNodeName = "Repo";
-	public static final String URLRepoPropertyName = "URL";
+	public static final String URLRepoPropertyName = "repoURL";
 	public static final String linesOfJavaCodeRepoPropertyName = "linesOfJavaCode";
 
 	
