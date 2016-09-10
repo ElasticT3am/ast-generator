@@ -55,3 +55,19 @@ Using the following bullets you will see the graphs useing Neo4j browser
 
 ![screen shot 2016-09-08 at 03 25 07](https://cloud.githubusercontent.com/assets/11991105/18333027/f7d59cec-7573-11e6-898a-dcd78d650117.png)
 
+
+### Results
+
+We present some important and practical queries on AST datasets !
+
+###### Query1: Returns all the parameters of a specific method "name"
+
+> Match (m:Method) -[:HAS_PARAMETER]-> (p:Parameter)Where m.name = "name" return p.name as Name, p.type as Type;
+
+###### Query2: Returns all the parameters from a method, whch has annotation '@Override'
+
+> Match (m:Method) -[:HAS_PARAMETER]-> (p:Parameter) MATCH (m:Method) -[:HAS_ANNOTATION]-> (ann:Annotation) Where ann.name = "@Override" return p.name as Name, p.type as Type;
+
+###### Query3: Returns all the methods, whch has parameter type "type"
+
+> Match (m:Method) -[:HAS_PARAMETER]-> (p:Parameter) Where p.type = "type" return m.name as Name, m.package as Package;
