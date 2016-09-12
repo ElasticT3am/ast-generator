@@ -37,7 +37,7 @@ URL_Of_project parameter is useful for Neo4j stats. If you don't have an unique 
  
 ### Results
 
-Using the following bullets you will see the graphs useing Neo4j browser
+Using the following bullets you will see the graphs using Neo4j browser
 
 * Go to Neo4j browser
 
